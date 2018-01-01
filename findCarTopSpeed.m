@@ -7,7 +7,7 @@ distance = 10;
 
 while abs(currentV-lastV) > 0.001
     lastV = currentV;
-    [~,currentV] = func_iter_Accel_time(car,0,0.001,distance);
+    [~,currentV] = func_iter_Accel_time(car,0,0.001,distance, 0.001);
     distance = distance + 400;
 end
 dragTop = currentV;

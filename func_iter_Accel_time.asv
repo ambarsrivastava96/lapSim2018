@@ -1,4 +1,4 @@
-function [Accel_time, v_final, energyUsed, K] = func_iter_Accel_time(car, grade, v_initial, distance, dt)
+function [Accel_time, v_final, energyUsed, K] = func_iter_Accel_time(car, grade, v_initial, distance)
 
 %Constants
 g = 9.81; %m/s^2
@@ -38,6 +38,7 @@ end
 
 %--------------------------------------------------------------------------
 %Start simulation (no aerodynamics)
+dt = 0.001;
 t = 0;
 a_x(1) = 0;
 v_x(1) = v_initial;
@@ -163,18 +164,16 @@ while(x(length(x)) < distance)
     
 end
 
-% plot(t, a_x)
-% xlabel('time');
-% ylabel('accel');
+plot(t, a_x)
+xlabel('time');
+ylabel('accel');
 
 Accel_time = t(length(t));
 v_final = v_x(length(v_x));
 energyUsed = E;
 
-K.t = t;
 K.x = x;
 K.v = v_x;
-K.a = a_x;
-K.p = p;
+K.
 
 end
