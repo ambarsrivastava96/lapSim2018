@@ -14,7 +14,7 @@ n = length(trackData(:,2));
 %% Set Up Data Arrays
 t = [0]; % Time
 x = [0]; % Position/Distance
-v = [0]; % Velocity
+v = [v_launch]; % Velocity
 a = [0]; % Acceleratiom
 p = [0]; % Power
 
@@ -27,97 +27,99 @@ for i = 1:n
 end
 
 %% Begin Simulation
+for i = 1:2:n-1
+    Accel = 1;
+    disp(i);
+    Brake = 0;
+    Corner = 1;
+    % Straight
+    v_test = v_launch;
+    [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3),v(end),trackData(i,1), dt);
 
-Accel = 1;
-Brake = 0;
-Corner = 1;
-% Straight
-v_test = v_launch;
-[~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_launch,trackData(1,1), dt);
+    % Corner
+    v_corner_max = func_iter_Max_Cornering_Vel(car, abs(trackData(i+1,2)));
 
-% Corner
-v_corner_max = func_iter_Max_Cornering_Vel(car, abs(trackData(2,2)));
+    if v_final > v_corner_max % Need to Brake
+        Brake = 1;
+        [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_corner_max, dt);
+        if braking_dist > trackData(i,1)% Needs more braking distance than is available on straight
+            Accel = 0;
+            if braking_dist > trackData(i,1)+trackData(i+1,1)% Not enough braking distance on corner + straight
+                % B Brake for straight + corner distance
+                Corner = 0;
+                v_brakes = v_corner_max+0.1;
+                while braking_dist > trackData(i,1)+trackData(i+1,1)
+                    [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_brakes, dt);
+                    v_brakes = v_brakes+0.1;
+                end              
+            else % B - C Brake through straight and part of corner
+                trackData(i+1,1) = trackData(i,1)+trackData(i+1,1)-braking_dist;
+            end
+        else
+            % A-B-C (Accel - Brake - Corner)
 
-if v_final > v_corner_max % Need to Brake
-    Brake = 1;
-    [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(1,3), v_final, v_corner_max, dt);
-    if braking_dist > trackData(1,1)% Needs more braking distance than is available on straight
-        Accel = 0;
-        if braking_dist > trackData(1,1)+trackData(2,1)% Not enough braking distance on corner + straight
-            % B Brake for straight + corner distance
-            Corner = 0;
-            v_brakes = v_corner_max+0.1;
-            while braking_dist > trackData(1,1)+trackData(2,1)
-                [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(1,3), v_final, v_brakes, dt);
-                v_brakes = v_brakes+0.1;
-            end              
-        else % B - C Brake through straight and part of corner
-            trackData(2,1) = trackData(1,1)+trackData(2,1)-braking_dist;
+            trackData(i,1) = trackData(i,1) - braking_dist; % Reduce Straight Length
+            [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt); % New Straight Sim
+            while abs(v_final-v_final_adjusted>0.001) % Iterate until velocities match
+                [braking_dist_new, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final_adjusted, v_corner_max, dt);
+                v_final = v_final_adjusted;
+                trackData(i,1) = trackData(i,1) + braking_dist - braking_dist_new;
+                braking_dist = braking_dist_new;
+                [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt); % New Straight Sim
+            end
         end
     else
-        % A-B-C (Accel - Brake - Corner)
-
-        trackData(1,1) = trackData(1,1) - braking_dist; % Reduce Straight Length
-        [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_test,trackData(1,1), dt); % New Straight Sim
-        while abs(v_final-v_final_adjusted>0.001) % Iterate until velocities match
-            [braking_dist_new, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(1,3), v_final_adjusted, v_corner_max, dt);
-            v_final = v_final_adjusted;
-            trackData(1,1) = trackData(1,1) + braking_dist - braking_dist_new;
-            braking_dist = braking_dist_new;
-            [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_test,trackData(1,1), dt); % New Straight Sim
+        while v_final < v_corner_max
+            trackData(i,1) = trackData(i,1) + 0.1;
+            trackData(i+1,1) = trackData(i+1,1) - 0.1;
+            if trackData(i+1,1)<0% Not enough accel distance on corner + straight % A
+                Corner = 0;
+                break
+            end
+            [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
         end
     end
-else
-    while v_final < v_corner_max
-        trackData(1,1) = trackData(1,1) + 0.1;
-        trackData(2,1) = trackData(2,1) - 0.1;
-        if trackData(2,1)<0% Not enough accel distance on corner + straight % A
-            Corner = 0;
-            break
-        end
-        [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_test,trackData(1,1), dt);
+
+    Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
+    DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
+    Fx_resist = 0.03*(car.mass.Iterate*g+DF);
+    Force = Fx_resist + Drag + (car.mass.Iterate)*g*sind(trackData(i,3));
+    p_corner = Force*v_corner_max/car.drivetrain_efficiency;
+
+    % Add Straight to Data Arrays
+    if Accel == 1
+        t_add = K_a.t+t(end);
+        x_add = K_a.x+x(end);
+        t = [t t_add];
+        x = [x x_add];
+        v = [v K_a.v];
+        a = [a K_a.a];
+        p = [p K_a.p];
     end
-end
-    
-Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
-DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
-Fx_resist = 0.03*(car.mass.Iterate*g+DF);
-Force = Fx_resist + Drag + (car.mass.Iterate)*g*sind(trackData(2,3));
-p_corner = Force*v_corner_max/car.drivetrain_efficiency;
 
-% Add Straight to Data Arrays
-if Accel == 1
-    t_add = K_a.t+t(end);
-    x_add = K_a.x+x(end);
-    t = [t t_add];
-    x = [x x_add];
-    v = [v K_a.v];
-    a = [a K_a.a];
-    p = [p K_a.p];
-end
+    % Add Braking to Data Arrays
+    if Brake == 1
+        t_add = K_b.t+t(end);
+        x_add = K_b.x+x(end);
+        t = [t t_add];
+        x = [x x_add];
+        v = [v K_b.v];
+        a = [a K_b.a];
+        p = [p K_b.p]; 
+    end
 
-% Add Braking to Data Arrays
-if Brake == 1
-    t_add = K_b.t+t(end);
-    x_add = K_b.x+x(end);
-    t = [t t_add];
-    x = [x x_add];
-    v = [v K_b.v];
-    a = [a K_b.a];
-    p = [p K_b.p]; 
-end
+    % Add Corner to Data Arrays
+    if Corner == 1
+        t_corner = abs(trackData(i+1,1))/v_corner_max;
 
-% Add Corner to Data Arrays
-if Corner == 1
-    t_corner = abs(trackData(2,1))/v_corner_max;
-
-    t_add = t(end):dt:t(end)+t_corner;
-    x_add = x(end) + (t_add-t(end))*v_corner_max;
-    t = [t t_add];
-    x = [x x_add];
-    v = [v v_corner_max*ones(1,length(t_add))];
-    a = [a zeros(1,length(t_add))];
-    p = [p p_corner*ones(1,length(t_add))];
+        t_add = t(end):dt:t(end)+t_corner;
+        x_add = x(end) + (t_add-t(end))*v_corner_max;
+        t = [t t_add];
+        x = [x x_add];
+        v = [v v_corner_max*ones(1,length(t_add))];
+        a = [a zeros(1,length(t_add))];
+        p = [p p_corner*ones(1,length(t_add))];
+    end
 end
 
 %% Plotting
