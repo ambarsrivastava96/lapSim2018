@@ -32,8 +32,8 @@ Accel = 1;
 Brake = 0;
 Corner = 1;
 % Straight
-v_test = 11;
-[~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_test,trackData(1,1), dt);
+v_test = v_launch;
+[~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_launch,trackData(1,1), dt);
 
 % Corner
 v_corner_max = func_iter_Max_Cornering_Vel(car, abs(trackData(2,2)));
@@ -68,10 +68,15 @@ if v_final > v_corner_max % Need to Brake
         end
     end
 else
-%     if % Needs more accel distance than is available on straight % A - C
-%         if % Not enough accel distance on corner + straight % A
-%         end
-%     end
+    while v_final < v_corner_max
+        trackData(1,1) = trackData(1,1) + 0.1;
+        trackData(2,1) = trackData(2,1) - 0.1;
+        if trackData(2,1)<0% Not enough accel distance on corner + straight % A
+            Corner = 0;
+            break
+        end
+        [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(1,3), v_test,trackData(1,1), dt);
+    end
 end
     
 Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
