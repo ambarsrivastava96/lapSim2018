@@ -13,7 +13,6 @@ t = 0;
 T = [t];
 a = 0;
 A = [a];
-P =
 
 while (v > v_final)
     
@@ -58,7 +57,7 @@ Braking_time = t;
 energyRecover = 0.5*car.mass.Iterate*(v_final^2-v_initial^2);
 
 K.t = T;
-K.x = A;
+K.x = X;
 K.v = V;
 K.a = A;
 K.p = zeros(1,length(T));
