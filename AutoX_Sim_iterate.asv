@@ -2,6 +2,7 @@ function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered] = 
 
 g = 9.81;
 rho = 1.225;
+dt = 0.001;
 
 %Set up data arrays
 v_corner_max = zeros(1,length(competition.trackData(:,2)));
@@ -37,16 +38,16 @@ for i = 1:(length(v_corner_max) - 1)
     disp(i);
     if (competition.trackData(i,2) == 0) % Find Straights
         if (i == 1) % Check if launch/start straight
-            [Accel_time, v_final] = func_iter_Accel_time(car, competition.trackData(i,3), v_launch, competition.trackData(i,1));
+            [Accel_time, v_final] = func_iter_Accel_time(car, competition.trackData(i,3), v_launch, competition.trackData(i,1),dt);
         else
-            [Accel_time, v_final] = func_iter_Accel_time(car, competition.trackData(i,3), v_corner_max(i - 1), competition.trackData(i,1));
+            [Accel_time, v_final] = func_iter_Accel_time(car, competition.trackData(i,3), v_corner_max(i - 1), competition.trackData(i,1),dt);
         end
         
         %Last stretch
         if (i == (length(v_corner_max) - 1))
         
             %            fprintf('   Segment %2.0f - Last Stretch\n', i);
-            [Accel_time, v_accel, energy] = func_iter_Accel_time(car, competition.trackData(i,3), v_corner_max(i - 1), competition.trackData(i,1));
+            [Accel_time, v_accel, energy] = func_iter_Accel_time(car, competition.trackData(i,3), v_corner_max(i - 1), competition.trackData(i,1),dt);
             Total_time(i) = Accel_time;
             Total_energy_used(i) = energy;
             
@@ -54,14 +55,14 @@ for i = 1:(length(v_corner_max) - 1)
         elseif ((i ~= 1) && (v_corner_max(i - 1) > v_corner_max(i + 1)))
             
             %            fprintf('   Segment %2.0f - Braking required\n', i);
-            [Braking_dist, Braking_time, energyRecovered] = func_iter_Braking_dist(car, competition.trackData(i,3), v_corner_max(i - 1), v_corner_max(i + 1));
+            [Braking_dist, Braking_time, energyRecovered] = func_iter_Braking_dist(car, competition.trackData(i,3), v_corner_max(i - 1), v_corner_max(i + 1),dt);
             Rem_dist = competition.trackData(i,1) - Braking_dist;
             
             index = 1;
             %If more braking distance required, reduce incoming velocity
             while (Rem_dist < 0)
                 v_corner_max(i - 1) = (1 - index/1000)*v_corner_max(i - 1);
-                [Braking_dist, Braking_time, energyRecovered] = func_iter_Braking_dist(car, competition.trackData(i,3), v_corner_max(i - 1), v_corner_max(i + 1));
+                [Braking_dist, Braking_time, energyRecovered] = func_iter_Braking_dist(car, competition.trackData(i,3), v_corner_max(i - 1), v_corner_max(i + 1),dt);
                 Rem_dist = competition.trackData(i,1) - Braking_dist;
                 index = index + 1;
             end
@@ -81,12 +82,14 @@ for i = 1:(length(v_corner_max) - 1)
             
             v_check = 0;
             distReq = 0;
-                while v_check<v_corner_max(i+1)
-                    distReq = distReq + 1;
-                    [Accel_time,v_check,energy] = func_iter_Accel_time(car,competition.trackData(i,3),v_final,distReq);
+            while v_check<v_corner_max(i+1)
+                distReq = distReq + 1;
+                [Accel_time,v_check,energy] = func_iter_Accel_time(car,competition.trackData(i,3),v_final,distReq);
+                if distReq > competition.trackData(i+1,1)
+                    break;
                 end
-                
-            
+            end
+               
             if distReq > competition.trackData(i+1,1) % If corner is too long to get up to speed
                 Accel_time2 = Accel_time;
                 energy2 = energy;

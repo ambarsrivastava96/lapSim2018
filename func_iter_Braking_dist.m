@@ -19,7 +19,7 @@ while (v > v_final)
     DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v^2;
     D = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v^2;
     
-    Load_transfer = (car.mass.Iterate)*abs(a)*car.COG_height/car.wheelbase;
+    Load_transfer = (car.mass.Iterate)*abs(a)*car.COG_height/(car.wheelbase);
     
     Fz_f = 0.5*(car.mass.Iterate)*g*cosd(grade) + Load_transfer + DF/2 - (car.mass.Iterate)*g*(car.COG_height/car.wheelbase)*sind(grade);
     Fz_r = 0.5*(car.mass.Iterate)*g*cosd(grade) - Load_transfer + DF/2 + (car.mass.Iterate)*g*(car.COG_height/car.wheelbase)*sind(grade);
