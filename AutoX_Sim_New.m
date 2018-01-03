@@ -139,8 +139,20 @@ subplot(2,2,4)
 plot(t,p)
 title('Power');
 
-%% Relics
-AutoX_Score = 1;
-AutoX_time = 1;
-AutoX_energy_used = 1;
-AutoX_energy_recovered = 1;
+%% Scoring
+T_your = t(end);
+T_min = competition.autocrossMin;
+T_max = 1.45*t_min;
+AutoX_Score = 118.5*((T_max/T_your)-1)/((T_max/T_min)-1)+6.5;
+AutoX_time = T_your;
+
+%% Energy Usage
+AutoX_energy_used = 0;
+AutoX_energy_recovered = 0;
+for i = 1:p(end)
+    if p(i) > 0
+        AutoX_energy_used = AutoX_energy_used + p(i)*dt;
+    elseif p(i) < 0
+        AutoX_energy_recovered = AutoX_energy_recovered + p(i)*dt;
+    end
+end

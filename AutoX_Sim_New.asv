@@ -76,7 +76,7 @@ for i = 1:2:n-1
                 Corner = 0;
                 break
             end
-            [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v_test,trackData(i,1), dt);
+            [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
         end
     end
 
@@ -139,8 +139,11 @@ subplot(2,2,4)
 plot(t,p)
 title('Power');
 
-%% Relics
-AutoX_Score = 1;
+%% Scoring
+T_your = 
+T_min = competition.autocrossMin;
+T_max = 1.45*t_min;
+AutoX_Score = 118.5*(T_mad/;
 AutoX_time = 1;
 AutoX_energy_used = 1;
 AutoX_energy_recovered = 1;
