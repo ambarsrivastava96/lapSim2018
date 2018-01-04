@@ -142,7 +142,7 @@ title('Power');
 %% Scoring
 T_your = t(end);
 T_min = competition.autocrossMin;
-T_max = 1.45*t_min;
+T_max = 1.45*T_min;
 AutoX_Score = 118.5*((T_max/T_your)-1)/((T_max/T_min)-1)+6.5;
 AutoX_time = T_your;
 
