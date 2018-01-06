@@ -3,7 +3,7 @@ function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered] = 
 %% Constants
 g = 9.81;
 rho = 1.225;
-dt = 0.001;
+dt = 0.1;
 v_launch = 0.001;
 
 %% Set Up
@@ -136,7 +136,7 @@ plot(t,a)
 title('Acceleration');
 
 subplot(2,2,4)
-plot(t,p)
+plot(t,p/1000)
 title('Power');
 
 %% Scoring
