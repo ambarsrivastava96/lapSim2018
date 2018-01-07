@@ -16,4 +16,6 @@ end
 % legend('IA = 0', 'IA = 2', 'IA = 4')
 legend('P = 8PSI', 'P = 10PSI', 'P = 12PSI', 'P = 14PSI');
 grid on
+
+figure 
              

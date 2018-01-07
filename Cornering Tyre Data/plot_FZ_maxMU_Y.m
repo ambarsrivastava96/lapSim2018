@@ -97,7 +97,11 @@ FZ_max_MU_1100 = FZ_1100(I_1100);
 max_MU = [max_MU_Y_200, max_MU_Y_400, max_MU_Y_600, max_MU_Y_900, max_MU_Y_1100];
 max_MU_Z = [FZ_max_MU_200, FZ_max_MU_400, FZ_max_MU_600, FZ_max_MU_900, FZ_max_MU_1100];
 
-plot(abs(max_MU_Z),max_MU);
-xlabel('FZ');
-ylabel('MU_Y');
+% plot(abs(max_MU_Z),max_MU);
+% xlabel('FZ');
+% ylabel('MU_Y');
+
+figure
+FY_actual = abs(max_MU.*max_MU_Z);
+plot(abs(max_MU_Z),FY_actual);
 %legend('FZ=200N','FZ=400N','FZ=600N','FZ=900N','FZ=1100N');
