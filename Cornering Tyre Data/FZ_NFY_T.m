@@ -1,12 +1,12 @@
-load B1654run24.mat
-c = linspace(min(TSTC),max(TSTC),length(ET));
-T = (TSTC-min(TSTC))./(max(TSTC)-min(TSTC));
-scatter3(FZ,NFY,TSTC,[],TSTC);
+clear all
+tyreData = compileRun24_25();
+c = linspace(min(tyreData.TSTC),max(tyreData.TSTC),length(tyreData.ET));
+T = (tyreData.TSTC-min(tyreData.TSTC))./(max(tyreData.TSTC)-min(tyreData.TSTC));
+scatter3(tyreData.FZ,tyreData.NFY,tyreData.TSTC,[],tyreData.TSTC);
 hold on
 xlabel('FZ');
 ylabel('Mu_Y');
 zlabel('Temp');
-load B1654run25.mat
-c = linspace(min(TSTC),max(TSTC),length(ET));
-T = (TSTC-min(TSTC))./(max(TSTC)-min(TSTC));
-scatter3(FZ,NFY,TSTC,[],TSTC);
+colormap jet
+grid on
+colorbar

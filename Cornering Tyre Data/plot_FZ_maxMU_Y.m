@@ -1,5 +1,12 @@
 function [] = plot_FZ_maxMU_Y(IA_select,P_select)
-load B1654run24.mat
+tyreData = compileRun24_25();
+ET = tyreData.ET;
+FY = tyreData.FY;
+FZ = tyreData.FZ; 
+SA = tyreData.SA;
+IA = tyreData.IA; 
+P = tyreData.P;
+
 
 P_buffer = 5;
 IA_buffer = 0.2;
