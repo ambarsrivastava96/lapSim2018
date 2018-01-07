@@ -1,4 +1,4 @@
-function [] = plot_SA_VS_FZ(IA_select,P_select)
+function [] = plot_FZ_maxMU_Y(IA_select,P_select)
 load B1654run24.mat
 figure
 fig_title = sprintf('Pressure = %.1f kPa, IA = %.1f Degrees',P_select,IA_select);
@@ -59,26 +59,40 @@ for i = 1:length(ET)
     end
 end
 
+
 i_200 = (FY_200~=0);
-plot(SA_200(i_200),FY_200(i_200),'*');
-hold on
+MU_Y_200 = FY_200(i_200)./FZ_200(i_200);
+FZ_200 = FZ_200(i_200);
+[max_MU_Y_200,I_200] = max(abs(MU_Y_200));
+FZ_max_MU_200 = FZ_200(I_200);
 
 i_400 = (FY_400~=0);
-plot(SA_400(i_400),FY_400(i_400),'*');
-hold on
+MU_Y_400 = FY_400(i_400)./FZ_400(i_400);
+FZ_400 = FZ_400(i_400);
+[max_MU_Y_400,I_400] = max(abs(MU_Y_400));
+FZ_max_MU_400 = FZ_400(I_400);
 
 i_600 = (FY_600~=0);
-plot(SA_600(i_600),FY_600(i_600),'*');
-hold on
+MU_Y_600 = FY_600(i_600)./FZ_600(i_600);
+FZ_600 = FZ_600(i_600);
+[max_MU_Y_600,I_600] = max(abs(MU_Y_600));
+FZ_max_MU_600 = FZ_600(I_600);
 
 i_900 = (FY_900~=0);
-plot(SA_900(i_900),FY_900(i_900),'*');
-hold on
+MU_Y_900 = FY_900(i_900)./FZ_900(i_900);
+[max_MU_Y_900,I_900] = max(abs(MU_Y_900));
+FZ_max_MU_900 = FZ_900(I_900);
 
 i_1100 = (FY_1100~=0);
-plot(SA_1100(i_1100),FY_1100(i_1100),'*');
-hold on
+MU_Y_1100 = FY_1100(i_1100)./FZ_1100(i_1100);
+FZ_200 = FZ_200(i_200);
+[max_MU_Y_1100,I_1100] = max(abs(MU_Y_1100));
+FZ_max_MU_1100 = FZ_1100(I_1100);
 
-xlabel('Slip Angle');
-ylabel('FY');
-legend('FZ=200N','FZ=400N','FZ=600N','FZ=900N','FZ=1100N');
+max_MU = [max_MU_Y_200, max_MU_Y_400, max_MU_Y_600, max_MU_Y_900, max_MU_Y_1100];
+max_MU_Z = [FZ_max_MU_200, FZ_max_MU_400, FZ_max_MU_600, FZ_max_MU_900, FZ_max_MU_1100];
+
+plot(max_MU,max_MU_Z,'*');
+xlabel('FZ');
+ylabel('MU_Y');
+%legend('FZ=200N','FZ=400N','FZ=600N','FZ=900N','FZ=1100N');
