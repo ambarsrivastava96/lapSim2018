@@ -86,27 +86,29 @@ for s = 2:arraySize
 
 
         %%%%%%
-        i_upper = length(car.V_matrix(:,gear_no));
-        i_lower = 1;
-        if car.V_matrix(i_upper,gear_no) < v_x(s-1) %If V above RPM range
-            Lower_vel = car.V_matrix(i_upper,gear_no);
-            F_drive = car.F_matrix(i_upper,gear_no);
-        elseif car.V_matrix(i_lower,gear_no) > v_x(s-1) %If V below RPM range
+        i = length(car.V_matrix(:,gear_no));
+        if car.V_matrix(i,gear_no) < v_x(s-1) %If V above RPM range
+            Lower_vel = car.V_matrix(i,gear_no);
+            F_drive = car.F_matrix(i,gear_no);
+        elseif car.V_matrix(1,gear_no) > v_x(s-1) %If V below RPM range
+            i=1;
             Lower_vel = 0;
             Lower_Force = 0;
-            Upper_vel = car.V_matrix(i_lower,gear_no);
-            Upper_Force = car.F_matrix(i_lower,gear_no);
+            Upper_vel = car.V_matrix(i,gear_no);
+            Upper_Force = car.F_matrix(i,gear_no);
             F_drive = Lower_Force + (Upper_Force-Lower_Force)*(v_x(s-1)-Lower_vel)/(Upper_vel-Lower_vel);
         else %Search for current RPM
-            i = floor((i_lower+i_upper)/2); % Middle index
-            i_last = i_upper;
+            i = floor(length(car.V_matrix(:,gear_no))/2); % Middle index
+            i_last = length(car.V_matrix(:,gear_no));
             while car.V_matrix(i,gear_no)>v_x(s-1) || car.V_matrix(i+1,gear_no)< v_x(s-1)
                 if car.V_matrix(i,gear_no)< v_x(s-1)
-                    i_lower = i;
+                    sign = 1;
                 else
-                    i_upper = i;
+                    sign = -1;
                 end
-                i = floor((i_lower+i_upper)/2);
+                i_last2 = i;
+                i = floor(i+sign*0.5*(abs(i_last-i)));
+                i_last = i_last2;
             end
             Lower_vel = car.V_matrix(i,gear_no);
             Lower_Force = car.F_matrix(i,gear_no);

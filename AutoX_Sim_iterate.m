@@ -2,7 +2,7 @@ function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered] = 
 
 g = 9.81;
 rho = 1.225;
-dt = 0.001;
+dt = 0.01;
 
 %Set up data arrays
 v_corner_max = zeros(1,length(competition.trackData(:,2)));

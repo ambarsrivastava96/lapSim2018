@@ -69,22 +69,26 @@ for i = 1:2:n-1
             end
         end
     else
-        [~, v_final_check, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1)+trackData(i+1,1), dt);
+        while abs(v_final-v_corner_max) > 0.1
             
-        if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
-            Corner = 0;
-        else
-            while abs(v_final-v_corner_max) > 0.1
-                if v_final < v_corner_max
-                    sign = 1;
-                else
-                    sign = -1;
-                end
-                trackData(i,1) = trackData(i,1) + sign*0.5*trackData(i+1,1);
-                trackData(i+1,1) = trackData(i+1,1) - sign*0.5*trackData(i+1,1);
-
-                [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
+            trackData(i,1) = trackData(i,1) + 1;
+            trackData(i+1,1) = trackData(i+1,1) - 1;
+            [~, v_final_check, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1)+trackData(i+1,1), dt);
+            
+            if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
+                Corner = 0;
+                break
             end
+            
+            if v_final < v_corner_max
+                sign = 1;
+            else
+                sign = -1;
+            end
+            trackData(i,1) = trackData(i,1) + sign*0.5*trackData(i+1,1);
+            trackData(i+1,1) = trackData(i+1,1) - 0.5*trackData(i+1,1);
+            
+            [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
         end
     end
 
