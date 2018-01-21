@@ -34,7 +34,7 @@ for i = 1:2:n-1
     Corner = 1;
     % Straight
     v_test = v_launch;
-    [Accel_time, v_final, energyUsed, K_a] = func_iter_Accel_time(car, trackData(i,3),v(end),trackData(i,1), dt);
+    [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3),v(end),trackData(i,1), dt);
 
     % Corner
     v_corner_max = func_iter_Max_Cornering_Vel(car, abs(trackData(i+1,2)));
