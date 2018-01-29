@@ -37,7 +37,7 @@ car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
 car.CL_IterateValue = car.CL_NoAero;
 
-car.CD_DRS = 0.48; %used for accel run 
+car.CD_DRS = 0.48; 
 car.CD_IterateValue = car.CD_DRS;
 
 
@@ -59,7 +59,7 @@ car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 41.55*10^3; %W
+car.powerLimit = 80*10^3; %W
 
 car.drivetrain_efficiency = 0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);

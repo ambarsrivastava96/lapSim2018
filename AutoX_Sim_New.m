@@ -29,7 +29,7 @@ end
 %% Begin Simulation
 for i = 1:2:n-1
     Accel = 1;
-    disp(i);
+%     disp(i);
     Brake = 0;
     Corner = 1;
     % Straight
@@ -143,8 +143,9 @@ subplot(2,2,3)
 plot(t,a)
 title('Acceleration');
 
+p = p/1000;
 subplot(2,2,4)
-plot(t,p/1000)
+plot(t,p)
 title('Power');
 
 %% Scoring
@@ -157,10 +158,13 @@ AutoX_time = T_your;
 %% Energy Usage
 AutoX_energy_used = 0;
 AutoX_energy_recovered = 0;
-for i = 1:p(end)
+for i = 1:length(p)
     if p(i) > 0
-        AutoX_energy_used = AutoX_energy_used + p(i)*dt;
+        AutoX_energy_used = AutoX_energy_used + 1000*p(i)*dt;
     elseif p(i) < 0
         AutoX_energy_recovered = AutoX_energy_recovered + p(i)*dt;
     end
 end
+
+AutoX_energy_used = AutoX_energy_used/3600000; % Convert to kWh
+AutoX_energy_recovered = AutoX_energy_recovered/3600000;
