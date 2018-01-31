@@ -2,9 +2,10 @@
 
 %% Track Data
 competition.trackData = loadTrackData('2016TrackDataVer2');
+competition.laps = 18;
 
 %% Scores
 competition.autocrossMin = 75;
-competition.enduranceMin = 78*18; 
+competition.enduranceMin = 78*competition.laps; 
 competition.accelMin = 3.816;
 competition.skidMin = 4.974;

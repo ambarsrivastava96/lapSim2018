@@ -29,7 +29,7 @@ end
 %% Begin Simulation
 for i = 1:2:n-1
     Accel = 1;
-    disp(i);
+%     disp(i);
     Brake = 0;
     Corner = 1;
     % Straight
@@ -131,21 +131,21 @@ for i = 1:2:n-1
 end
 
 %% Plotting
-subplot(2,2,1)
-plot(t,x)
-title('Distance');
-
-subplot(2,2,2)
-plot(t,v)
-title('Velocity');
-
-subplot(2,2,3)
-plot(t,a)
-title('Acceleration');
-
-subplot(2,2,4)
-plot(t,p/1000)
-title('Power');
+% subplot(2,2,1)
+% plot(t,x)
+% title('Distance');
+% 
+% subplot(2,2,2)
+% plot(t,v)
+% title('Velocity');
+% 
+% subplot(2,2,3)
+% plot(t,a)
+% title('Acceleration');
+% 
+% subplot(2,2,4)
+% plot(t,p/1000)
+% title('Power');
 
 %% Scoring
 T_your = t(end);
@@ -157,7 +157,7 @@ AutoX_time = T_your;
 %% Energy Usage
 AutoX_energy_used = 0;
 AutoX_energy_recovered = 0;
-for i = 1:p(end)
+for i = 1:length(p)
     if p(i) > 0
         AutoX_energy_used = AutoX_energy_used + p(i)*dt;
     elseif p(i) < 0
