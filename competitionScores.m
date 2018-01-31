@@ -1,7 +1,8 @@
 function [Score,Time,Energy] = competitionScores(car,competition)
-    [Score.AutoX, Time.AutoX, Energy.AutoX_Used, Energy.AutoX_recovered] = AutoX_Sim_iterate(car,competition);
+    dt = 0.001;
+    [Score.AutoX, Time.AutoX, Energy.AutoX_Used, Energy.AutoX_recovered] = AutoX_Sim_New(car,competition);
 
-    [Time.Accel, ~] = func_iter_Accel_time(car, 0, 0.001, 75);
+    [Time.Accel, ~] = func_iter_Accel_time(car, 0, 0.001, 75, dt);
     
     Tmin = competition.accelMin;
     Tmax = Tmin*1.5;

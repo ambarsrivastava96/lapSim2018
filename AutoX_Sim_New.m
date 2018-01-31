@@ -34,7 +34,6 @@ for i = 1:2:n-1
     Corner = 1;
     % Straight
     v_test = v_launch;
-    [Accel_time, v_final, energyUsed, K_a] = func_iter_Accel_time(car, trackData(i,3),v(end),trackData(i,1), dt);
 
     % Corner
     v_corner_max = func_iter_Max_Cornering_Vel(car, abs(trackData(i+1,2)));
@@ -131,6 +130,7 @@ for i = 1:2:n-1
 end
 
 %% Plotting
+<<<<<<< HEAD
 subplot(2,2,1)
 plot(t,x)
 title('Distance');
@@ -147,6 +147,23 @@ p = p/1000;
 subplot(2,2,4)
 plot(t,p)
 title('Power');
+=======
+% subplot(2,2,1)
+% plot(t,x)
+% title('Distance');
+% 
+% subplot(2,2,2)
+% plot(t,v)
+% title('Velocity');
+% 
+% subplot(2,2,3)
+% plot(t,a)
+% title('Acceleration');
+% 
+% subplot(2,2,4)
+% plot(t,p/1000)
+% title('Power');
+>>>>>>> 0cbb0276a8778a3ded1582c0f77883a193b2bfa2
 
 %% Scoring
 T_your = t(end);

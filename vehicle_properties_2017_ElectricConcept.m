@@ -53,7 +53,7 @@ car.gear.R = [1];
 car.gear.final = 4.3;
 car.gear.primary = 1;
 
-[torque_row,RPM_row] = EngineExcel2Vector('Emrax_207');
+[torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
 numberOfMotors = 1;
 car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
@@ -61,7 +61,7 @@ car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 car.powerLimit = 80*10^3; %W
 
-car.drivetrain_efficiency = 0.9;
+car.drivetrain_efficiency = 1;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
 %car.top_speed = findCarTopSpeed(car);
 
