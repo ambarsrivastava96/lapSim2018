@@ -13,7 +13,7 @@ car.wheelbase = 1.864; % m
 car.track.front = 1.22; % m
 car.track.rear = 1.1; % m
 
-car.COG_height = 0.318; % metres
+car.COG_height = 0.28; % metres
 
 car.track.average = (car.track.rear+car.track.front)/2;
 car.tyre.width = .240; 
@@ -35,10 +35,10 @@ car.farea_Iterate = 0.7476;
 
 car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
-car.CL_IterateValue = car.CL_NoAero;
+car.CL_IterateValue = 3.62;
 
 car.CD_DRS = 0.48; 
-car.CD_IterateValue = car.CD_DRS;
+car.CD_IterateValue = 1.34;
 
 
 %% Engine Porperties
@@ -62,7 +62,7 @@ car.peak_power = max(car.power);
 car.powerLimit = 80*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
-car.drivetrain_efficiency = 1;
+car.drivetrain_efficiency = 0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
 %car.top_speed = findCarTopSpeed(car);
 

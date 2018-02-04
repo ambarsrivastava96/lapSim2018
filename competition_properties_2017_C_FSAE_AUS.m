@@ -1,7 +1,7 @@
 %% Setup file with all Competition properties of FSAE-A 2016
 
 %% Track Data
-competition.trackData = loadTrackData('2016TrackDataVer2');
+competition.trackData = loadTrackData('2017_FSAEA_TRACK_DATA');
 competition.trackDistance = sum(competition.trackData(:,1));
 competition.laps = 20;
 competition.totalDistance = competition.trackDistance*competition.laps;
