@@ -62,7 +62,7 @@ car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
 car.gear.final = 37/13; %Checked, and correct 
 car.gear.primary = 76/33;
 
-[torque_row,RPM_row] = EngineExcel2Vector('KTM_525_Stock');
+[torque_row,RPM_row] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno');
 car.RPM = RPM_row;
 car.torque = torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);

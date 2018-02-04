@@ -8,7 +8,7 @@ LaptotalCO2min = competition.laps;
 
 CO2min = competition.efficiency.CO2min;
 CO2yours = enduroEnergy*CO2conversionFactor;
-CO2yoursEffMin = 12.012*(competition.totalDistance/1000)/100; 
+CO2yoursEffMin = 15.708*(competition.totalDistance/1000)/100; 
 TyoursEffMin = 1.45*competition.enduranceMin;
 
 effFactorYours = ((Tmin/Laptotalmin)/(Tyours/Lapyours))*((CO2min/LaptotalCO2min)/(CO2yours/Lapyours));

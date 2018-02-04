@@ -13,5 +13,5 @@ competition.accelMin = 4.312;
 competition.skidMin = 5.216;
 
 %% Efficiency
-competition.efficiency.LapTotalCO2min = ;
-competition.efficiency.CO2min = ;
+% competition.efficiency.LapTotalCO2min = ;
+% competition.efficiency.CO2min = ;
