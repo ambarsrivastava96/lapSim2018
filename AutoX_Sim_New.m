@@ -75,7 +75,7 @@ for i = 1:2:n-1
         if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
             Corner = 0;
         else
-            while abs(v_final-v_corner_max) > 0.1
+            while abs(v_final-v_corner_max) > 0.01
                 if v_final < v_corner_max
                     sign = 1;
                 else
@@ -132,22 +132,26 @@ for i = 1:2:n-1
 end
 
 %% Plotting
-% subplot(2,2,1)
-% plot(t,x)
-% title('Distance');
-% 
-% subplot(2,2,2)
-% plot(t,v)
-% title('Velocity');
-% 
-% subplot(2,2,3)
-% plot(t,a)
-% title('Acceleration');
-% 
-% p = p/1000;
-% subplot(2,2,4)
-% plot(t,p)
-% title('Power');
+subplot(2,2,1)
+plot(t,x)
+title('Distance');
+hold on
+
+subplot(2,2,2)
+plot(t,v)
+title('Velocity');
+hold on 
+
+subplot(2,2,3)
+plot(t,a)
+title('Acceleration');
+hold on 
+
+p = p/1000;
+subplot(2,2,4)
+plot(t,p)
+title('Power');
+hold on 
 
 %% Scoring
 T_your = t(end);

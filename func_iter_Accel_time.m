@@ -113,9 +113,8 @@ for s = 2:arraySize
             Upper_vel = car.V_matrix(i+1,gear_no);
             Upper_Force = car.F_matrix(i+1,gear_no);
             F_drive = Lower_Force + (Upper_Force-Lower_Force)*(v_x(s-1)-Lower_vel)/(Upper_vel-Lower_vel);
-
-            [~,maxP_index] = max(car.V_matrix(:,gear_no));
-            if i > maxP_index
+            [~,maxF_index] = max(car.F_matrix(:,gear_no));
+            if i > maxF_index
                 launch = 0;
             end
         end

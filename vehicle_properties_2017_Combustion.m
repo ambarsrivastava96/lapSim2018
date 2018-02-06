@@ -47,7 +47,7 @@ car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.CD_DRS = 0; %used for accel run 
-car.CD_IterateValue = 1.2;
+car.CD_IterateValue = 1.2*0.7;
 
 
 %% Engine Properties
@@ -65,6 +65,7 @@ car.gear.primary = 76/33;
 [torque_row,RPM_row] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno');
 car.RPM = RPM_row;
 car.torque = torque_row;
+% car.torque = 1.1*car.torque; 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 % car.top_speed = 42.1;
