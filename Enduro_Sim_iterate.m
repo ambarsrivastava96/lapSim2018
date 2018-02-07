@@ -2,13 +2,25 @@ function [Enduro_Score, Enduro_time, Energy_used, Energy_recovered] = Enduro_Sim
 
 %Calculate adjusted time for AutoX to Enduro to account for
 %changes in course difficulty
-Number1_enduro = 1654.5/20; 
-Number2_enduro = 1723.5/20; 
-Number3_enduro = 1783.4/20;
+if car.electric == 1
+    Number1_enduro = 1654.5/20; 
+    Number2_enduro = 1723.5/20; 
+    Number3_enduro = 1783.4/20;
+else
+    Number1_enduro = 1515.2/20; 
+    Number2_enduro = 1641/20; 
+    Number3_enduro = 1667.2/20;
+end
 
-Number1_AX = 75;
-Number2_AX = 78.8;
-Number3_AX = 87.7;
+if car.electric == 1
+    Number1_AX = 75;
+    Number2_AX = 78.8;
+    Number3_AX = 87.7;
+else
+    Number1_AX = 74.6;
+    Number2_AX = 86.0;
+    Number3_AX = 78.7;
+end
 
 Adjusted_1 = Number1_enduro - Number1_AX;
 Adjusted_2 = Number2_enduro - Number2_AX;
