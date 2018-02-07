@@ -61,9 +61,9 @@ Tyour2 = t_aero;
 
 Skidpad_Score = (71.5*((Tmax/Tyour2)^2 -1) / ((Tmax/Tmin)^2 -1)) + 3.5;
 
-if (Skidpad_Score > 75)
-    Skidpad_Score = 75;
-end
+% if (Skidpad_Score > 75)
+%     Skidpad_Score = 75;
+% end
 
 Skidpad_time = Tyour2;
 

@@ -5,8 +5,6 @@ competition.trackData = loadTrackData('2017_FSAEA_TRACK_DATA');
 competition.trackDistance = sum(competition.trackData(:,1));
 competition.laps = 20;
 competition.totalDistance = competition.trackDistance*competition.laps;
-competition.totalDistance = 24000; %Temporary
-
 %% Scores
 competition.autocrossMin = 75;
 competition.enduranceMin = 1654.5;

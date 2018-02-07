@@ -16,5 +16,8 @@ effFactorMin = ((Tmin/Laptotalmin)/(TyoursEffMin/Lapyours))*((CO2min/LaptotalCO2
 effFactorMax = ((Tmin/Laptotalmin)/(T_CO2min/Laptotalmin))*((CO2min/LaptotalCO2min)/(CO2min/LaptotalCO2min));
 
 effScore = 100*((effFactorMin/effFactorYours)-1)/((effFactorMin/effFactorMax)-1);
+if effScore < 0
+    effScore = 0;
+end
 end
 
