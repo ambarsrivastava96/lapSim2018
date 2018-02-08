@@ -31,7 +31,7 @@ car.mass.sprung = car.mass.total - car.mass.unsprung;
 car.rim_RM = 0.231267;
 
 %% Aero Properties
-car.farea_Iterate = 0.7476;
+car.farea_Iterate = 1;
 
 car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
@@ -59,12 +59,12 @@ car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 80*10^3; %W
+car.powerLimit = 50*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
 car.drivetrain_efficiency = 0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
-%car.top_speed = findCarTopSpeed(car);
+car.top_speed = findCarTopSpeed(car);
 
 car.energyCapacity = 7.2*3600000;
 

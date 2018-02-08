@@ -13,5 +13,6 @@ competition.accelMin = 4.312;
 competition.skidMin = 5.216;
 
 %% Efficiency
-% competition.efficiency.LapTotalCO2min = ;
-% competition.efficiency.CO2min = ;
+competition.electric = 0;
+competition.efficiency.T_CO2min = 1641.0; % Wollongong
+competition.efficiency.CO2min = 2.31*2.8; % Wollongong

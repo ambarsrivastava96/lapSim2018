@@ -74,7 +74,7 @@ car.powerLimit = inf;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
 car.top_speed = findCarTopSpeed(car);
 car.energyCapacity = inf;
-car.thermalEfficiency = 0.4;
+car.thermalEfficiency = 0.18;
 car.CO2conversionFactor = 1.65*(1/7.125)*(1/car.thermalEfficiency); % 1.65 From Rules, convert to L, inefficency losses
 
 car.corneringVelocity = [];
