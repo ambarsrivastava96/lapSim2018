@@ -47,7 +47,7 @@ car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.CD_DRS = 0; %used for accel run 
-car.CD_IterateValue = 1.2*0.7;
+car.CD_IterateValue = 1.2;
 
 
 %% Engine Properties
