@@ -41,8 +41,8 @@ Tyour = Enduro_time;
 
 Enduro_Score = 250*(((Tmax/Tyour) - 1)/((Tmax/Tmin) - 1)) + 25;
 
-% if (Enduro_Score > 300)
-%     Enduro_Score = 300;
+% if (Enduro_Score > 275)
+%     Enduro_Score = 275;
 % end
 
 if Enduro_Score < 25

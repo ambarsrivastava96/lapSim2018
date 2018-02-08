@@ -53,7 +53,7 @@ while (abs(Fy - Fy_old) > 0.001)
     
     if (v > car.top_speed)
         
-        v = car.top_speed - 0.01;
+        v = car.top_speed;
         check = 1;
     end
     

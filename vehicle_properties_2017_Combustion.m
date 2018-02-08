@@ -41,13 +41,13 @@ car.farea_Iterate = 1;
 car.CL_NoAero = 0.000001;
 car.CL_Tray = 2.365/2;
 car.CL_FullAero = 2.365;
-car.CL_IterateValue = 3.6;
+car.CL_IterateValue = 3.62;
 
 car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.CD_DRS = 0; %used for accel run 
-car.CD_IterateValue = 1.2;
+car.CD_IterateValue = 1.34;
 
 
 %% Engine Properties

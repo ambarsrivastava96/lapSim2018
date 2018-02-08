@@ -12,9 +12,9 @@ function [Score,Time,Energy] = competitionScores(car,competition)
         Score.Accel = 4.5;
     end
 
-    if (Score.Accel > 75)
-        Score.Accel = 75;
-    end
+%     if (Score.Accel > 75)
+%         Score.Accel = 75;
+%     end
     
     [Score.Enduro, Time.Enduro, Energy.Enduro_Used, Energy.Enduro_recovered] = Enduro_Sim_iterate(car,Time.AutoX,competition, Energy.AutoX_Used, Energy.AutoX_recovered);
     Score.Efficiency = Efficiency_Sim_iterate(car.CO2conversionFactor, competition, Energy.Enduro_Used, Time.Enduro);
