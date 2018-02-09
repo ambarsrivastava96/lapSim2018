@@ -8,10 +8,10 @@ rho = 1.225; %kg/m^3
 %% General vehicle properties
 car.name = 'Electric Car 2017';
 car.electric = 1;
-car.wheelbase = 1.864; % m
+car.wheelbase = 1.575; % m
 
-car.track.front = 1.22; % m
-car.track.rear = 1.1; % m
+car.track.front = 1.17; % m
+car.track.rear = 1.08; % m
 
 car.COG_height = 0.28; % metres
 
@@ -37,8 +37,9 @@ car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
 car.CL_IterateValue = 3.62;
 
-car.CD_DRS = 0.48; 
+car.DRS = 0; % Change to 1 if car has DRS
 car.CD_IterateValue = 1.34;
+car.CD_DRS = 0.6*car.CD_IterateValue; 
 
 
 %% Engine Porperties

@@ -1,4 +1,4 @@
-function effScore = Efficiency_Sim_iterate(CO2conversionFactor, competition, enduroEnergy , enduroTime)
+function [CO2yours, effScore] = Efficiency_Sim_iterate(CO2conversionFactor, competition, enduroEnergy , enduroTime)
 Tmin = competition.enduranceMin;
 T_CO2min = competition.efficiency.T_CO2min;
 Tyours = enduroTime; 

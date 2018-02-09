@@ -46,8 +46,9 @@ car.CL_IterateValue = 3.62;
 car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
-car.CD_DRS = 0; %used for accel run 
+car.DRS = 0; % Change to 1 if car has DRS
 car.CD_IterateValue = 1.34;
+car.CD_DRS = 0.6*car.CD_IterateValue; 
 
 
 %% Engine Properties

@@ -5,9 +5,12 @@ g = 9.81; %m/s^2
 rho = 1.225; %kg/m^3
 
 %Activate DRS Mode
-%Cl = 0.5*Cl;
-%Cd = 0.85;
 
+if car.DRS == 1
+    CD = car.CD_DRS;
+else 
+    CD = car.CD_IterateValue;
+end
 %Engine parameters
 %http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/...
 %specifications/24036/05/transmission.html
@@ -68,7 +71,7 @@ F_max = max(max(car.F_matrix));
 
 for s = 2:arraySize
     if x(s-1) < distance
-        Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_x(s-1)^2;
+        Drag = 0.5*CD*rho*car.farea_Iterate*v_x(s-1)^2;
         DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v_x(s-1)^2;
 
         Load_transfer = (car.mass.Iterate)*a_x(s-1)*car.COG_height/car.wheelbase;

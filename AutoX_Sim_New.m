@@ -1,4 +1,4 @@
-function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered] = AutoX_Sim_New(car, competition)
+function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition)
 
 %% Constants
 g = 9.81;
@@ -132,26 +132,25 @@ for i = 1:2:n-1
 end
 
 %% Plotting
-subplot(2,2,1)
-plot(t,x)
-title('Distance');
-hold on
-
-subplot(2,2,2)
-plot(t,v)
-title('Velocity');
-hold on 
-
-subplot(2,2,3)
-plot(t,a)
-title('Acceleration');
-hold on 
-
-p = p/1000;
-subplot(2,2,4)
-plot(t,p)
-title('Power');
-hold on 
+% subplot(2,2,1)
+% plot(t,x)
+% title('Distance');
+% hold on
+% 
+% subplot(2,2,2)
+% plot(t,v)
+% title('Velocity');
+% hold on 
+% 
+% subplot(2,2,3)
+% plot(t,a)
+% title('Acceleration');
+% hold on 
+% 
+% subplot(2,2,4)
+% plot(t,p/1000)
+% title('Power');
+% hold on 
 
 %% Scoring
 T_your = t(end);
@@ -165,7 +164,7 @@ AutoX_energy_used = 0;
 AutoX_energy_recovered = 0;
 for i = 1:length(p)
     if p(i) > 0
-        AutoX_energy_used = AutoX_energy_used + 1000*p(i)*dt;
+        AutoX_energy_used = AutoX_energy_used + p(i)*dt;
     elseif p(i) < 0
         AutoX_energy_recovered = AutoX_energy_recovered + p(i)*dt;
     end
@@ -173,3 +172,11 @@ end
 
 AutoX_energy_used = AutoX_energy_used/3600000; % Convert to kWh
 AutoX_energy_recovered = AutoX_energy_recovered/3600000;
+
+%% Export Kinematic Data
+K.t = t;
+K.x = x;
+K.v = v;
+K.a = a;
+K.p = p;
+
