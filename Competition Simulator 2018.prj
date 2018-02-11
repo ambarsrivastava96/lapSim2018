@@ -1,0 +1,87 @@
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration build-checksum="3254013410" file="C:\Users\Ambar\Documents\MUR\lapSim2018\Competition Simulator 2018.prj" location="C:\Users\Ambar\Documents\MUR\lapSim2018" name="Competition Simulator 2018" target="target.mlapps" target-name="Package App">
+    <param.appname>Competition Simulator 2018</param.appname>
+    <param.authnamewatermark>Ambar Srivastava</param.authnamewatermark>
+    <param.email>a.srivastava@murmotorsports.com</param.email>
+    <param.company>MUR Motorsports</param.company>
+    <param.icon />
+    <param.icons />
+    <param.summary>Competition simulation used to predict number of dynamic points given a set of vehicle properties.</param.summary>
+    <param.description>This application allows users to predict the performance of an FSAE car. Outputs are the number of points scored in each event, as well as graphs of kinematic values.</param.description>
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.output>C:\Users\Ambar\Documents\MUR\lapSim2018</param.output>
+    <param.guid>2c708f2a-d08e-40e2-99b1-971409e7dbed</param.guid>
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.screenshot />
+      <param.version />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+      <param.output />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\LapSim2018.m</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\AutoX_Sim_New.m</file>
+      <file>${PROJECT_ROOT}\calcShiftRPM.m</file>
+      <file>${PROJECT_ROOT}\competition_properties_2017_C_FSAE_AUS.m</file>
+      <file>${PROJECT_ROOT}\competition_properties_2017_E_FSAE_AUS.m</file>
+      <file>${PROJECT_ROOT}\competitionScores.m</file>
+      <file>${PROJECT_ROOT}\Efficiency_Sim_iterate.m</file>
+      <file>${PROJECT_ROOT}\Enduro_Sim_iterate.m</file>
+      <file>${PROJECT_ROOT}\EngineExcel2Vector.m</file>
+      <file>${PROJECT_ROOT}\findCarTopSpeed.m</file>
+      <file>${PROJECT_ROOT}\func_Coeff_Friction_lat.m</file>
+      <file>${PROJECT_ROOT}\func_Coeff_Friction_lat_skid.m</file>
+      <file>${PROJECT_ROOT}\func_Coeff_Friction_long_launch.m</file>
+      <file>${PROJECT_ROOT}\func_Coeff_Friction_long_rolling.m</file>
+      <file>${PROJECT_ROOT}\func_iter_Accel_time.m</file>
+      <file>${PROJECT_ROOT}\func_iter_Braking_dist.m</file>
+      <file>${PROJECT_ROOT}\func_iter_Max_Cornering_Vel.m</file>
+      <file>${PROJECT_ROOT}\func_iter_RPM_locater.m</file>
+      <file>${PROJECT_ROOT}\func_iter_Yaw_perf.m</file>
+      <file>${PROJECT_ROOT}\InterX.m</file>
+      <file>${PROJECT_ROOT}\loadTrackData.m</file>
+      <file>${PROJECT_ROOT}\MUR_logo.png</file>
+      <file>${PROJECT_ROOT}\SkidPad_Sim_iterate.m</file>
+      <file>${PROJECT_ROOT}\vehicle_properties_2017_Combustion.m</file>
+      <file>${PROJECT_ROOT}\vehicle_properties_2018_Electric.m</file>
+    </fileset.depfun>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\LapSim2018.fig</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="C:\Users\Ambar\Documents\MUR" name="lapSim2018" optional="false">C:\Users\Ambar\Documents\MUR\lapSim2018</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2016b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.2</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

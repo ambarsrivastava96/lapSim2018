@@ -1,27 +1,19 @@
 % Cell test 
 
-competition_properties_2016_FSAE_AUS;
-vehicle_properties_Electric2017;
+competition_properties_2017_E_FSAE_AUS;
+vehicle_properties_2018_Electric;
 
-FDR = 2:0.5:6;
-cells = [96 120 128];
-cellMass = (cells-96)*0.5;
-cellEnergy = [7.2 7.5 8.1];
+%% Things to Consdier
+% Affect on mass
+% Use capacity to find torque throttling to allow enduro finish
+% Affect on power limit due to voltage cap
+% Drop in voltage -> Power limit due to cell voltage dropping
 
-for c = 1:length(cells)
-    car.mass.Iterate = car.mass.Iterate+cellMass(c);
-    car.energyCapacity = cellEnergy(c)*3600000;
-    for i = 1:length(FDR)
-        car.gear.final = FDR(i);
-        [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
-        [ScoresE, timesE] = competitionScores(car,competition);
-        if ScoresE.Enduro == 0
-            plot(FDR(i),ScoresE.total,'r*')
-            hold on
-        else 
-            plot(FDR(i),ScoresE.total,'b*')
-            hold on
-        end
-    end
-end
+%%
+% 1x6 Config with Sony VTC6 https://www.energusps.com/shop/product/li1x6pvtc6t-li-ion-building-block-3-6v-18-6ah-15c-179?category=3
+nBlocks = 120;
+mBlock = 0.323;
+voltageBlock = 3.6; %V
+capacityBlock = 18.6; %Ah
+energyCapacity = 
 

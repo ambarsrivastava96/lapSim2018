@@ -1,4 +1,4 @@
-%% Setup file with all vehicle properties of MUR2016
+%% Setup file with all vehicle properties of MUR2017
 
 global g rho 
 g = 9.81;
@@ -6,7 +6,7 @@ rho = 1.225; %kg/m^3
 
 
 %% General vehicle properties
-car.name = 'MUR 2017 - 525 Stock';
+car.name = 'MUR 2017C';
 car.electric = 0;
 car.wheelbase = 1.575; % m
 
@@ -16,7 +16,6 @@ car.track.rear = 1.08; % m
 car.COG_height = 0.3; % metres
 
 car.track.average = (car.track.rear+car.track.front)/2;
-% car.track.average = (1180+1060)/2000;
 car.tyre.width = .240; 
 car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
