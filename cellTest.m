@@ -3,7 +3,7 @@
 competition_properties_2017_E_FSAE_AUS;
 vehicle_properties_2018_Electric;
 
-%% Things to Consdier
+%% Things to Consider
 % Affect on mass
 % Use capacity to find torque throttling to allow enduro finish
 % Affect on power limit due to voltage cap
