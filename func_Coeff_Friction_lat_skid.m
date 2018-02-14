@@ -10,7 +10,8 @@ function [mu] = func_Coeff_Friction_lat_skid(Fz)
 
 %plot(Fz, mu-0.9)
 
-mu = (-0.12117e-07.*Fz.^2 - 0.00025071.*Fz + 2.5038 - 0.9);
+mu = (-0.12117e-07.*Fz.^2 - 0.00025071.*Fz + 2.5038-0.9);
+% mu = mu+0.1;
 
 end
 

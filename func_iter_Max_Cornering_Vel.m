@@ -47,6 +47,9 @@ while (abs(Fy - Fy_old) > 0.001)
     if (abs(a_lat) > (car.track.average*((Fz)/2 + 0.5*DF)/(car.COG_height*(car.mass.Iterate))))
         
         a_lat = (car.track.average*((Fz)/2 + 0.5*DF)/(car.COG_height*(car.mass.Iterate)));
+%         disp('Roll');
+%     else
+%         disp('hi');
     end
     
     v = (radius*a_lat)^0.5;
