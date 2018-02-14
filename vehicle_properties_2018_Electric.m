@@ -6,21 +6,21 @@ rho = 1.225; %kg/m^3
 
 
 %% General vehicle properties
-car.name = 'Electric Car 2017';
+car.name = 'Electric Car 2018';
 car.electric = 1;
 car.wheelbase = 1.575; % m
 
 car.track.front = 1.17; % m
 car.track.rear = 1.08; % m
 
-car.COG_height = 0.28; % metres
+car.COG_height = 0.295; % metres
 
 car.track.average = (car.track.rear+car.track.front)/2;
 car.tyre.width = .240; 
 car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
 car.mass.driver = 80; % kg
-car.mass.no_driver_no_aero = 249; % kg
+car.mass.no_driver_no_aero = 260; % kg
 car.mass.aero = 0;
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
