@@ -48,10 +48,10 @@ for i = 1:2:n-1
             if braking_dist > trackData(i,1)+trackData(i+1,1)% Not enough braking distance on corner + straight
                 % B Brake for straight + corner distance
                 Corner = 0;
-                v_brakes = v_corner_max+0.1;
+                v_brakes = v_corner_max+0.001;
                 while braking_dist > trackData(i,1)+trackData(i+1,1)
                     [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_brakes, dt);
-                    v_brakes = v_brakes+0.1;
+                    v_brakes = v_brakes+0.001;
                 end              
             else % B - C Brake through straight and part of corner
                 trackData(i+1,1) = trackData(i,1)+trackData(i+1,1)-braking_dist;
@@ -75,17 +75,26 @@ for i = 1:2:n-1
         if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
             Corner = 0;
         else
-            while abs(v_final-v_corner_max) > 0.01
+            cornerLength = trackData(i+1,1);
+            first = 1;
+            while abs(v_final-v_corner_max) > 0.005
                 if v_final < v_corner_max
                     sign = 1;
                 else
                     sign = -1;
                 end
-                trackData(i,1) = trackData(i,1) + sign*0.5*trackData(i+1,1);
-                trackData(i+1,1) = trackData(i+1,1) - sign*0.5*trackData(i+1,1);
-
+                cornerLength = 0.5*cornerLength;
+                trackData(i,1) = trackData(i,1) + sign*cornerLength;
+                trackData(i+1,1) = trackData(i+1,1) - sign*cornerLength;
+                first = 0;
                 [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
             end
+            
+            %In case already within threshold
+            if first == 1 
+                [~, ~, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
+            end
+                
         end
     end
 
@@ -179,4 +188,11 @@ K.x = x;
 K.v = v;
 K.a = a;
 K.p = p;
+
+%% Continuity Check
+for i = 1:length(K.t)-1
+    if(abs(K.v(i+1)-K.v(i))>1) % Check for velocity jump greater than 1m/s between any successive points
+        error('Continuity Error at t = %.4f',K.t(i));
+    end
+end
 

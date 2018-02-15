@@ -60,7 +60,7 @@ car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 80*10^3; %W
+car.powerLimit = 70*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
 car.drivetrain_efficiency = 0.9;

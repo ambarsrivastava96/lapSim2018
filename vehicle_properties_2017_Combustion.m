@@ -40,14 +40,14 @@ car.farea_Iterate = 1;
 car.CL_NoAero = 0.000001;
 car.CL_Tray = 2.365/2;
 car.CL_FullAero = 2.365;
-car.CL_IterateValue = 3.62;
+car.CL_IterateValue = 3.62; %3.62
 
 car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.DRS = 0; % Change to 1 if car has DRS
-car.CD_IterateValue = 1.34;
-car.CD_DRS = 0.6*car.CD_IterateValue; 
+car.CD_IterateValue =1.34;
+car.CD_DRS = car.CD_IterateValue; 
 
 
 %% Engine Properties
