@@ -1,7 +1,7 @@
 % FDR Test
 competition_properties_2017_E_FSAE_AUS;
 vehicle_properties_2018_Electric;
-% vehicle_properties_2017_Combustion;
+%vehicle_properties_2017_Combustion;
 
 FDR = 2.5:0.1:6;
 n = length(FDR);
