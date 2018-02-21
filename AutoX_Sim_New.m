@@ -190,9 +190,9 @@ K.a = a;
 K.p = p;
 
 %% Continuity Check
-for i = 1:length(K.t)-1
-    if(abs(K.v(i+1)-K.v(i))>1) % Check for velocity jump greater than 1m/s between any successive points
-        error('Continuity Error at t = %.4f',K.t(i));
-    end
-end
+% for i = 1:length(K.t)-1
+%     if(abs(K.v(i+1)-K.v(i))>1) % Check for velocity jump greater than 1m/s between any successive points
+%         error('Continuity Error at t = %.4f',K.t(i));
+%     end
+% end
 

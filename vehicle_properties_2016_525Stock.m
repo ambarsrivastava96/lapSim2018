@@ -62,17 +62,19 @@ car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
 car.gear.final = 37/12; %Checked, and correct 
 car.gear.primary = 76/33;
 
-[torque_row,RPM_row] = EngineExcel2Vector('KTM_525_Stock');
+[torque_row,RPM_row] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno');
 car.RPM = RPM_row;
 car.torque = torque_row;
+car.torque = 1.1*car.torque; 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.top_speed = 42.1;
+% car.top_speed = 42.1;
 car.drivetrain_efficiency = 0.9;
 car.powerLimit = inf;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
-%car.top_speed = findCarTopSpeed(car);
+car.top_speed = findCarTopSpeed(car);
 car.energyCapacity = inf;
-
+car.thermalEfficiency = 0.18;
+car.CO2conversionFactor = 1.65*(1/7.125)*(1/car.thermalEfficiency); % 1.65 From Rules, convert to L, inefficency losses
 
 car.corneringVelocity = [];
