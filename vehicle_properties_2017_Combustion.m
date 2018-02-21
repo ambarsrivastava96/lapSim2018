@@ -21,7 +21,7 @@ car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
 car.mass.driver = 86; % kg
 car.mass.no_driver_no_aero = 197; % kg
-car.mass.aero = 25;
+car.mass.aero = 23;
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -46,8 +46,8 @@ car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.DRS = 0; % Change to 1 if car has DRS
-car.CD_IterateValue =1.34;
-car.CD_DRS = car.CD_IterateValue; 
+car.CD_IterateValue = 1.34;
+car.CD_DRS = 0.75;
 
 
 %% Engine Properties
