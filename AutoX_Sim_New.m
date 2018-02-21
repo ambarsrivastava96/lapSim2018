@@ -51,7 +51,7 @@ for i = 1:2:n-1
                 v_brakes = v_corner_max+0.001;
                 while braking_dist > trackData(i,1)+trackData(i+1,1)
                     [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_brakes, dt);
-                    v_brakes = v_brakes+0.001;
+                    v_brakes = v_brakes+0.01;
                 end              
             else % B - C Brake through straight and part of corner
                 trackData(i+1,1) = trackData(i,1)+trackData(i+1,1)-braking_dist;

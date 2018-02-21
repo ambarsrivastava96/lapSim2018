@@ -21,7 +21,7 @@ car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
 car.mass.driver = 86; % kg
 car.mass.no_driver_no_aero = 197; % kg
-car.mass.aero = 25;
+car.mass.aero = 23;
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 

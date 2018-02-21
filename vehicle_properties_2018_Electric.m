@@ -20,8 +20,8 @@ car.tyre.width = .240;
 car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
 car.mass.driver = 80; % kg
-car.mass.no_driver_no_aero = 260; % kg
-car.mass.aero = 0;
+car.mass.no_driver_no_aero = 239; % kg
+car.mass.aero = 21;
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -37,10 +37,9 @@ car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
 car.CL_IterateValue = 3.62;
 
-car.DRS = 0; % Change to 1 if car has DRS
+car.DRS = 1; % Change to 1 if car has DRS
 car.CD_IterateValue = 1.34;
-car.CD_DRS = 0.6*car.CD_IterateValue; 
-
+car.CD_DRS = 0.75;
 
 %% Engine Porperties
 %car.shift_RPM = 7500; 

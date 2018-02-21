@@ -39,6 +39,15 @@ Tmin = competition.enduranceMin;
 Tmax = Tmin*1.45;
 Tyour = Enduro_time;
 
+if car.electric == 1
+    while AutoX_time*competition.laps<Tyour
+        car.powerLimit = car.powerLimit - 5000;
+        [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition);
+        Energy_used = AutoX_energy_used*competition.laps;
+    end
+        
+end
+
 Enduro_Score = 250*(((Tmax/Tyour) - 1)/((Tmax/Tmin) - 1)) + 25;
 
 % if (Enduro_Score > 275)

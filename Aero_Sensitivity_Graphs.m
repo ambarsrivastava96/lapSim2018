@@ -65,4 +65,4 @@ ylabel('Increase in Dynamic competition points')
 legend('show')
 legend('Location','northwest')
 grid minor 
-title('Aero sensitivity for various CoG on Mass ratios')
+title('Aero sensitivity for various Lift on CoG ratios')
