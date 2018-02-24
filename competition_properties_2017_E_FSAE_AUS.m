@@ -14,4 +14,4 @@ competition.skidMin = 5.306;
 %% Efficiency
 competition.electric = 1;
 competition.efficiency.T_CO2min = 1723.5; % UTS Electric
-competition.efficiency.CO2min = 4*0.85; % 4kWh - UTS Electric
+competition.efficiency.CO2min = 3*0.85; % 4kWh - UTS Electric

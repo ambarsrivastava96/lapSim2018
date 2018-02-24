@@ -37,9 +37,20 @@ car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
 car.CL_IterateValue = 3.62;
 
-car.DRS = 1; % Change to 1 if car has DRS
+car.DRS = 0; % Change to 1 if car has DRS
 car.CD_IterateValue = 1.34;
 car.CD_DRS = 0.75;
+
+% Aero Testing Change Parameters
+car.DRS = 0;
+car.CL_IterateValue = 3.62;
+car.CD_IterateValue = 1.34;
+
+car.mass.aero = 23; 
+car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
+car.mass.Iterate = car.mass.total;
+
+car.COG_height = 0.3015;
 
 %% Engine Porperties
 %car.shift_RPM = 7500; 

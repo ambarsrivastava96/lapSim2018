@@ -40,14 +40,27 @@ car.farea_Iterate = 1;
 car.CL_NoAero = 0.000001;
 car.CL_Tray = 2.365/2;
 car.CL_FullAero = 2.365;
-car.CL_IterateValue = 2.5; %3.62
+car.CL_IterateValue = 3.62; %3.62
 
 car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.DRS = 0; % Change to 1 if car has DRS
-car.CD_IterateValue =1.34*0.7;
-car.CD_DRS = car.CD_IterateValue; 
+car.CD_IterateValue =1.34;
+car.CD_DRS = 1.34*0.6;
+
+% Aero Testing Change Parameters
+car.DRS = 0;
+car.CL_IterateValue = 1.85;
+car.CD_IterateValue = 0.75;
+
+car.mass.aero = 6; 
+car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
+car.mass.Iterate = car.mass.total;
+
+car.COG_height = 0.292;
+
+
 
 
 %% Engine Properties
@@ -56,7 +69,7 @@ car.CD_DRS = car.CD_IterateValue;
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
 % http://www.ktmshop.se/documents/01863885eca922f3562b8fd432706a0b.pdf
 % http://www.motorcyclespecs.co.za/model/ktm/ktm_525_mxc%2000.htm
-car.shiftTime = 0.2;
+car.shiftTime = 0.05;
 car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
 
 car.gear.final = 37/13; %Checked, and correct 
