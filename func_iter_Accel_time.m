@@ -122,54 +122,19 @@ for s = 2:arraySize
             end
         end
         
-%         while car.V_matrix(i,gear_no)< v_x(s-1)
-%             Lower_vel = car.V_matrix(i,gear_no);
-%             Lower_Force = car.F_matrix(i,gear_no);
-%             if i==length(car.V_matrix(:,gear_no))
-%                 F_drive = Lower_Force;
-%                 Upper_vel = Lower_vel;
-%                 break
-%             else
-%                 Upper_vel = car.V_matrix(i+1,gear_no);
-%                 Upper_Force = car.F_matrix(i+1,gear_no);
-%                 if Upper_Force==max(max(car.F_matrix))
-%                     launch = 0;
-%                 end
-%                 F_drive = Lower_Force + (Upper_Force-Lower_Force)*(v_x(s-1)-Lower_vel)/(Upper_vel-Lower_vel);
-%                 i = i+1;
-%             end
-%                 
-%                 
-%             if i<length(car.V_matrix(:,gear_no))
-%                 Upper_vel = car.V_matrix(i+1,gear_no);
-%                 Upper_Force = car.F_matrix(i+1,gear_no);
-%                 if Upper_Force==max(max(car.F_matrix))
-%                     launch = 0;
-%                 end
-%                 F_drive = Lower_Force + (Upper_Force-Lower_Force)*(v_x(s-1)-Lower_vel)/(Upper_vel-Lower_vel);
-%                 i = i+1;
-%             else
-%                 F_drive = Lower_Force;
-%                 Upper_vel = Lower_vel;
-%                 break
-%             end
-%         end
-        %%%%%%%%%%%%%%
-
-        % Check if shift needed
-        if v_x(s-1)>car.shiftV(gear_no) && gear_no < length(car.gear.R)
-            gear_no = gear_no + 1;
-            gearShift = 1;
-            tShift = t(s-1);
-        end
-
-
-        %Check if still mid-shift
+        % Check if mid-shift
         if gearShift == 1
-            if t(s-1)-tShift>=car.shiftTime
-                gearShift = 0;
+            if t(s-1)-tShift>=car.shiftTime %Check if shift time has elapsed
+                gearShift = 0; % Change to out of shift
             else
-            F_drive = 0;
+            F_drive = 0; % If mid shift, no drive force
+            end
+        else 
+            % Check if shift needed
+            if v_x(s-1)>car.shiftV(gear_no) && gear_no < length(car.gear.R) %If speed has passed shifting speed, and not top gear
+                gear_no = gear_no + 1; % Increment to next gear
+                gearShift = 1; % Change to mid shift condition
+                tShift = t(s-1); % Shifting start point 
             end
         end
 

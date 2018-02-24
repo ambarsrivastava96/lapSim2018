@@ -21,7 +21,7 @@ car.width = max([car.track.front, car.track.rear])+car.tyre.width;
 
 car.mass.driver = 86; % kg
 car.mass.no_driver_no_aero = 197; % kg
-car.mass.aero = 23;
+car.mass.aero = 25;
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -78,7 +78,7 @@ car.gear.primary = 76/33;
 [torque_row,RPM_row] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno');
 car.RPM = RPM_row;
 car.torque = torque_row;
-% car.torque = 1.1*car.torque; 
+car.torque = car.torque; 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 % car.top_speed = 42.1;
