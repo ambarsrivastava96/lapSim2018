@@ -19,8 +19,8 @@ function [Score,Time,Energy,K] = competitionScores(car,competition)
 %     end
     
     [Score.Enduro, Time.Enduro, Energy.Enduro_Used, Energy.Enduro_recovered] = Enduro_Sim_iterate(car,Time.AutoX,competition, Energy.AutoX_Used, Energy.AutoX_recovered);
-%     [Time.CO2, Score.Efficiency] = Efficiency_Sim_iterate(car.CO2conversionFactor, competition, Energy.Enduro_Used, Time.Enduro);
-    Score.Efficiency = 0;
+    [Time.CO2, Score.Efficiency] = Efficiency_Sim_iterate(car.CO2conversionFactor, competition, Energy.Enduro_Used, Time.Enduro);
+%     Score.Efficiency = 0;
     [Score.Skidpan, Time.Skidpan] = SkidPad_Sim_iterate(car, competition);
     Score.total = Score.AutoX + Score.Accel + Score.Enduro + Score.Skidpan + Score.Efficiency; 
 end

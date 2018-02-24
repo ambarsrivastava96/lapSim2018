@@ -11,7 +11,7 @@ competition_properties_2017_C_FSAE_AUS;
 baseScore = ScoreBase.total;
 
 % %CL
-car.CL_IterateValue = car.CL_IterateValue+0.1;
+car.CL_IterateValue = car.CL_IterateValue*1.1;
 [Score,Time] = competitionScores(car,competition);
 NewScore = Score.total;
 score2 = Score;
@@ -20,7 +20,7 @@ fprintf('Cl increase (+0.1): %.3f\n', diff);
 vehicle_properties_2017_Combustion;
 
 % %CD
-car.CD_IterateValue = car.CD_IterateValue-0.1;
+car.CD_IterateValue = car.CD_IterateValue*0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
 [Score,Time,~,K2] = competitionScores(car,competition);
 NewScore = Score.total;
