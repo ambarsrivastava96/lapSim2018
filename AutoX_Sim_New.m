@@ -100,7 +100,7 @@ for i = 1:2:n-1
 
     Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
     DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
-    Fx_resist = 0.03*(car.mass.Iterate*g+DF);
+    Fx_resist = car.tyre.rollingResistance*(car.mass.Iterate*g+DF);
     Force = Fx_resist + Drag + (car.mass.Iterate)*g*sind(trackData(i,3));
     p_corner = Force*v_corner_max/car.drivetrain_efficiency;
 

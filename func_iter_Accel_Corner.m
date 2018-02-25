@@ -1,4 +1,4 @@
-function [Accel_time, v_final, energyUsed, K] = func_iter_Accel_time(car, grade, v_initial, distance, dt)
+function [time, v_final, energyUsed, K] = func_iter_Accel_Corner(car, grade, v_initial, distance, dt)
 
 %Constants
 g = 9.81; %m/s^2
@@ -6,16 +6,12 @@ rho = 1.225; %kg/m^3
 
 %Activate DRS Mode
 
-if car.DRS == 1
-    CD = car.CD_DRS;
-else 
-    CD = car.CD_IterateValue;
-end
-%Engine parameters
-%http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/...
-%specifications/24036/05/transmission.html
+% if car.DRS == 1
+%     CD = car.CD_DRS;
+% else 
+%     CD = car.CD_IterateValue;
+% end
 
-%R = [car.gear.R1 car.gear.R2 car.gear.R3 car.gear.R4 car.gear.R5 car.gear.R6];
 R = car.gear.R;
 
 %Car parameters
@@ -29,21 +25,6 @@ a_x = zeros(1,arraySize);
 x = zeros(1,arraySize);
 t = zeros(1,arraySize);
 p = zeros(1,arraySize);
-
-%--------------------------------------------------------------------------
-%Set up RPM locaters
-%Define RPM and velocity characteristics
-rpm_size = 10000;
-
-% rpm = zeros(rpm_size,length(R));
-% v = zeros(rpm_size,length(R));
-% 
-% for i = 2:rpm_size
-%     for j = 1:length(R)
-%         rpm(i,j) = rpm(i - 1,j) + 2;
-%         v(i,j) = (((rpm(i,j)*2*pi)/60)/(R(j)*car.gear.final*car.gear.primary))*car.rim_RM;
-%     end
-% end
 
 %--------------------------------------------------------------------------
 %Start simulation
@@ -202,7 +183,7 @@ for s = 2:arraySize
     end
 end
 
-Accel_time = t(length(t));
+time = t(length(t));
 v_final = v_x(length(v_x));
 energyUsed = E;
 

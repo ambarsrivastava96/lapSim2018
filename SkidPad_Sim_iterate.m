@@ -17,8 +17,8 @@ a_lat = v^2/(r);
 Fz_l = Fz/2;
 Fz_r = Fz/2;
 
-mu_left = func_Coeff_Friction_lat_skid(Fz_l/2);
-mu_right = func_Coeff_Friction_lat_skid(Fz_r/2);
+mu_left = car.tyre.latMuSkid(Fz_l/2);
+mu_right = car.tyre.latMuSkid(Fz_r/2);
 Fy = (mu_left*Fz_l + mu_right*Fz_r);
 Fy_old = 10e6;
 
@@ -30,8 +30,8 @@ Load_transfer = (car.mass.Iterate)*a_lat*car.COG_height/car.track.average;
 Fz_l = (Fz)/2 + Load_transfer + 0.5*DF;
 Fz_r = (Fz)/2 - Load_transfer + 0.5*DF;
 
-mu_left = func_Coeff_Friction_lat_skid(Fz_l/2);
-mu_right = func_Coeff_Friction_lat_skid(Fz_r/2);
+mu_left = car.tyre.latMuSkid(Fz_l/2);
+mu_right = car.tyre.latMuSkid(Fz_r/2);
 Fy_l = mu_left*Fz_l;
 Fy_r = mu_right*Fz_r;
 

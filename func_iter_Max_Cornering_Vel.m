@@ -19,8 +19,11 @@ a_lat = v^2/(radius);
 Fz_l = Fz/2;
 Fz_r = Fz/2;
 
-mu_left = func_Coeff_Friction_lat(Fz_l/2);
-mu_right = func_Coeff_Friction_lat(Fz_r/2);
+% mu_left = func_Coeff_Friction_lat(Fz_l/2);
+mu_left = car.tyre.latMu(Fz_l/2)*car.tyre.latMuScale;
+% mu_right = func_Coeff_Friction_lat(Fz_r/2);
+mu_right = car.tyre.latMu(Fz_r/2)*car.tyre.latMuScale;
+
 Fy = (mu_left*Fz_l + mu_right*Fz_r);
 Fy_old = 10e6;
 
@@ -33,8 +36,10 @@ while (abs(Fy - Fy_old) > 0.001)
     Fz_l = (Fz)/2 + Load_transfer + 0.5*DF;
     Fz_r = (Fz)/2 - Load_transfer + 0.5*DF;
     
-    mu_left = func_Coeff_Friction_lat(Fz_l/2);
-    mu_right = func_Coeff_Friction_lat(Fz_r/2);
+    % mu_left = func_Coeff_Friction_lat(Fz_l/2);
+    mu_left = car.tyre.latMu(Fz_l/2)*car.tyre.latMuScale;
+    % mu_right = func_Coeff_Friction_lat(Fz_r/2);
+    mu_right = car.tyre.latMu(Fz_r/2)*car.tyre.latMuScale;
     Fy_l = mu_left*Fz_l;
     Fy_r = mu_right*Fz_r;
     

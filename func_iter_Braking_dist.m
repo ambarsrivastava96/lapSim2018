@@ -24,8 +24,11 @@ while (v > v_final)
     Fz_f = 0.5*(car.mass.Iterate)*g*cosd(grade) + Load_transfer + DF/2 - (car.mass.Iterate)*g*(car.COG_height/car.wheelbase)*sind(grade);
     Fz_r = 0.5*(car.mass.Iterate)*g*cosd(grade) - Load_transfer + DF/2 + (car.mass.Iterate)*g*(car.COG_height/car.wheelbase)*sind(grade);
     
-    mu_front = func_Coeff_Friction_long_launch(Fz_f/2);
-    mu_rear = func_Coeff_Friction_long_launch(Fz_r/2);
+%     mu_front = func_Coeff_Friction_long_launch(Fz_f/2);
+%     mu_rear = func_Coeff_Friction_long_launch(Fz_r/2);
+    
+    mu_front = car.tyre.longMuLaunch(Fz_f/2)*car.tyre.longMuScale;
+    mu_rear = car.tyre.longMuLaunch(Fz_r/2)*car.tyre.longMuScale;
     
     Fric_front = -mu_front*Fz_f;
     Fric_rear = -mu_rear*Fz_r;
