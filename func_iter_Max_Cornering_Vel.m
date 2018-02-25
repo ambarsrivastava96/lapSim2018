@@ -6,9 +6,9 @@ rho = 1.225; %kg/m^3
 Fz = car.mass.Iterate*g;
 %---------------------------------------------------------
 %Alter car.CL_IterateValue depending on Yaw angle prescribed by radius
-
-Yaw_perf = func_iter_Yaw_perf(car, radius);
-CL = car.CL_IterateValue*Yaw_perf;
+% 
+% Yaw_perf = func_iter_Yaw_perf(car, radius);
+% CL = car.CL_IterateValue*Yaw_perf;
 
 %---------------------------------------------------------
 
@@ -30,7 +30,7 @@ Fy_old = 10e6;
 
 while (abs(Fy - Fy_old) > 0.001)
     
-    DF = 0.5*CL*rho*car.farea_Iterate*v^2;
+    DF = 0.5*car.CL_IterateValue*rho*car.farea_Iterate*v^2;
     
     Load_transfer = (car.mass.Iterate)*a_lat*car.COG_height/car.track.average;
     Fz_l = (Fz)/2 + Load_transfer + 0.5*DF;

@@ -1,18 +1,18 @@
 clear all
 %Sensitivity test
 
-vehicle_properties_2018_Electric;
-competition_properties_2017_E_FSAE_AUS;
+% vehicle_properties_2018_Electric;
+% competition_properties_2017_E_FSAE_AUS;
 
 vehicle_properties_2017_Combustion;
 competition_properties_2017_C_FSAE_AUS;
 
-[ScoreBase,Time,~,K1] = competitionScores(car,competition);
+[ScoreBase,Time,~,K] = competitionScores(car,competition);
 baseScore = ScoreBase.total;
 
 % %CL
 car.CL_IterateValue = car.CL_IterateValue*1.1;
-[Score,Time] = competitionScores(car,competition);
+[Score,Time, ~, K1] = competitionScores(car,competition);
 NewScore = Score.total;
 score2 = Score;
 diff = NewScore - baseScore; 

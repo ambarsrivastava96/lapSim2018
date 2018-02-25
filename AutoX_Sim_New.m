@@ -17,6 +17,7 @@ x = [0]; % Position/Distance
 v = [v_launch]; % Velocity
 a = [0]; % Acceleratiom
 p = [0]; % Power
+gear = [1];
 
 %% Process Track Data
 for i = 1:n
@@ -70,32 +71,57 @@ for i = 1:2:n-1
             end
         end
     else
-        [~, v_final_check, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1)+trackData(i+1,1), dt);
-            
-        if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
-            Corner = 0;
-        else
-            cornerLength = trackData(i+1,1);
-            first = 1;
-            while abs(v_final-v_corner_max) > 0.005
-                if v_final < v_corner_max
-                    sign = 1;
-                else
-                    sign = -1;
-                end
-                cornerLength = 0.5*cornerLength;
-                trackData(i,1) = trackData(i,1) + sign*cornerLength;
-                trackData(i+1,1) = trackData(i+1,1) - sign*cornerLength;
-                first = 0;
-                [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
-            end
-            
-            %In case already within threshold
-            if first == 1 
-                [~, ~, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
-            end
-                
-        end
+          if K_a.a(end) < 0
+              ia = length(K_a.a);
+              while K_a.a(ia)<0
+                ia = ia-1;
+                endAccel = K_a.a(ia);
+              end
+          else 
+              endAccel = K_a.a(end);
+          end
+          [time, v_final, energyUsed, K_a2] = func_iter_Accel_Corner(car, trackData(i+1,3), v_final, endAccel ,v_corner_max, abs(trackData(i+1,2)), abs(trackData(i+1,1)), dt);
+          t_add = K_a.t(end)+K_a2.t;
+          x_add = K_a.x(end)+K_a2.x;
+          K_a.t = [K_a.t t_add];
+          K_a.x = [K_a.x x_add];
+          K_a.v = [K_a.v K_a2.v];
+          K_a.a = [K_a.a K_a2.a];
+          K_a.p = [K_a.p K_a2.p];
+          K_a.gear = [K_a.gear K_a2.gear];
+          
+          if v_final>v_corner_max
+              trackData(i+1,1) = trackData(i+1,1)-K_a2.x(end);
+          else
+              Corner = 0;
+          end
+          
+%         [~, v_final_check, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1)+trackData(i+1,1), dt);
+%             
+%         if v_final_check<v_corner_max% Not enough accel distance on corner + straight % A
+%             Corner = 0;
+%         else
+%             cornerLength = trackData(i+1,1);
+%             first = 1;
+%             while abs(v_final-v_corner_max) > 0.005
+%                 if v_final < v_corner_max
+%                     sign = 1;
+%                 else
+%                     sign = -1;
+%                 end
+%                 cornerLength = 0.5*cornerLength;
+%                 trackData(i,1) = trackData(i,1) + sign*cornerLength;
+%                 trackData(i+1,1) = trackData(i+1,1) - sign*cornerLength;
+%                 first = 0;
+%                 [~, v_final, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
+%             end
+%             
+%             %In case already within threshold
+%             if first == 1 
+%                 [~, ~, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt);
+%             end
+%                 
+%         end
     end
 
     Drag = 0.5*car.CD_IterateValue*rho*car.farea_Iterate*v_corner_max^2;
@@ -113,6 +139,7 @@ for i = 1:2:n-1
         v = [v K_a.v];
         a = [a K_a.a];
         p = [p K_a.p];
+        gear = [gear K_a.gear];
     end
 
     % Add Braking to Data Arrays
@@ -123,7 +150,8 @@ for i = 1:2:n-1
         x = [x x_add];
         v = [v K_b.v];
         a = [a K_b.a];
-        p = [p K_b.p]; 
+        p = [p K_b.p];
+        gear = [gear K_b.gear];
     end
 
     % Add Corner to Data Arrays
@@ -137,6 +165,7 @@ for i = 1:2:n-1
         v = [v v_corner_max*ones(1,length(t_add))];
         a = [a zeros(1,length(t_add))];
         p = [p p_corner*ones(1,length(t_add))];
+        gear = [gear zeros(1,length(t_add))];
     end
 end
 
@@ -188,6 +217,7 @@ K.x = x;
 K.v = v;
 K.a = a;
 K.p = p;
+K.gear = gear;
 
 %% Continuity Check
 % for i = 1:length(K.t)-1

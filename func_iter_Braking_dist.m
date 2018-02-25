@@ -27,8 +27,8 @@ while (v > v_final)
 %     mu_front = func_Coeff_Friction_long_launch(Fz_f/2);
 %     mu_rear = func_Coeff_Friction_long_launch(Fz_r/2);
     
-    mu_front = car.tyre.longMuLaunch(Fz_f/2)*car.tyre.longMuScale;
-    mu_rear = car.tyre.longMuLaunch(Fz_r/2)*car.tyre.longMuScale;
+    mu_front = car.tyre.longMuRolling(Fz_f/2)*car.tyre.longMuScale;
+    mu_rear = car.tyre.longMuRolling(Fz_r/2)*car.tyre.longMuScale;
     
     Fric_front = -mu_front*Fz_f;
     Fric_rear = -mu_rear*Fz_r;
@@ -64,6 +64,7 @@ K.x = X;
 K.v = V;
 K.a = A;
 K.p = zeros(1,length(T));
+K.gear = zeros(1,length(T));
 
 end
 
