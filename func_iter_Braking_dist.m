@@ -1,4 +1,4 @@
-function [Braking_dist, Braking_time, energyRecover, K] = func_iter_Braking_dist(car, grade, v_initial, v_final, dt);
+function [Braking_dist, Braking_time, energyRecover, K] = func_iter_Braking_dist(car, grade, v_initial, v_final, dt)
 
 
 %Constants

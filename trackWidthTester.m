@@ -1,8 +1,8 @@
 % Track Width Tester
-startTrack = 0.6;
-endTrack = 1.5;
-increment = 0.05;
-courseWidth = 3.46; % From 2017 Comp Map
+startTrack = 1;
+endTrack = 1.6;
+increment = 0.005;
+courseWidth = 3.46; % 3.46 From 2017 Comp Map
 
 track = startTrack:increment:endTrack;
 
@@ -16,8 +16,12 @@ Enduro = zeros(1,n);
 Efficiency = zeros(1,n);
 
 % Load Initial Vehicle and Comp Properties
+% competition_properties_2017_E_FSAE_AUS;
+% vehicle_properties_2018_Electric;
+
 competition_properties_2017_C_FSAE_AUS;
 vehicle_properties_2017_Combustion;
+
 originalTrackData = competition.trackData;
 
 % Aero Properties
@@ -43,6 +47,8 @@ mass_grad = 50; % 5 kg per 100mm extra trackwidth
 mass_int = car.mass.Iterate - mass_grad*car.track.average;
 mass_estimate = @(tr) tr*mass_grad+mass_int;
 
+figure
+
 % Start Iteration
 for i = 1:n
     fprintf('Iteration %d out of %d\n',i,n);
@@ -50,14 +56,19 @@ for i = 1:n
     
     %Change vehicle properties
     car.track.average = tr;
+    car.track.front = tr;
+    car.track.rear = tr;
+    
     car.mass.Iterate = mass_estimate(tr);
     car.CL_IterateValue = CLA(tr);
     car.CD_IterateValue = CDA(tr);
     
     %Change course properties
-    competition.trackData = track_change(originalTrackData,courseWidth,tr,startTrack);
+    competition.trackData = track_change(originalTrackData,courseWidth,tr,1.8);
     
-    [Score,Time,Energy,~] = competitionScores(car,competition);
+    [Score,Time,Energy,K] = competitionScores(car,competition);
+    plot(K.x,K.v);
+    hold on
     Accel(i) = Score.Accel;
     Skidpan(i) = Score.Skidpan;
     AutoX(i) = Score.AutoX;
@@ -66,6 +77,7 @@ for i = 1:n
     total(i) = Score.total;
 end
 
+figure
 plot(track,total,track,Accel,track,Skidpan,track,AutoX,track,Enduro,track,Efficiency);
 legend('Total', 'Acceleration', 'Skidpan', 'Autocross', 'Endurance', 'Efficiency');
 grid minor
