@@ -19,7 +19,11 @@ for i = 1:length(car.FVG_Matrix(1,:))
 end
 
 Gear_no = Gear_no_upper;
-if car.
+
+if abs(vel-car.shiftV(Gear_no))<5 && Gear_no ~= 6
+    Gear_no = Gear_no+1;
+end
+
 Current_Force = Lower_Force + (Upper_Force-Lower_Force)*(vel-Lower_vel)/(Upper_vel-Lower_vel);
     
 end

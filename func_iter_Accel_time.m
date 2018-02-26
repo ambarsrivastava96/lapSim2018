@@ -216,6 +216,6 @@ K.x = x;
 K.v = v_x;
 K.a = a_x;
 K.p = p;
-K.gear = gear; 
+K.gear = gear;
 
 end
