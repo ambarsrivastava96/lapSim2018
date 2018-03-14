@@ -63,6 +63,7 @@ K.t = T;
 K.x = X;
 K.v = V;
 K.a = A;
+K.ay = zeros(1,length(T));
 K.p = zeros(1,length(T));
 K.gear = zeros(1,length(T));
 

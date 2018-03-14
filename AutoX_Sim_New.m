@@ -15,7 +15,8 @@ n = length(trackData(:,2));
 t = [0]; % Time
 x = [0]; % Position/Distance
 v = [v_launch]; % Velocity
-a = [0]; % Acceleratiom
+a = [0]; % Acceleration (Long)
+ay = [0]; % Acceleration (Lat)
 p = [0]; % Power
 gear = [1];
 
@@ -87,6 +88,7 @@ for i = 1:2:n-1
           K_a.x = [K_a.x x_add];
           K_a.v = [K_a.v K_a2.v];
           K_a.a = [K_a.a K_a2.a];
+          K_a.ay = [K_a.ay K_a2.ay];
           K_a.p = [K_a.p K_a2.p];
           K_a.gear = [K_a.gear K_a2.gear];
           
@@ -138,6 +140,7 @@ for i = 1:2:n-1
         x = [x x_add];
         v = [v K_a.v];
         a = [a K_a.a];
+        ay = [ay K_a.ay];
         p = [p K_a.p];
         gear = [gear K_a.gear];
     end
@@ -150,6 +153,7 @@ for i = 1:2:n-1
         x = [x x_add];
         v = [v K_b.v];
         a = [a K_b.a];
+        ay = [ay K_b.ay];
         p = [p K_b.p];
         gear = [gear K_b.gear];
     end
@@ -164,6 +168,7 @@ for i = 1:2:n-1
         x = [x x_add];
         v = [v v_corner_max*ones(1,length(t_add))];
         a = [a zeros(1,length(t_add))];
+        ay = [ay (v_corner_max^2/abs(trackData(i+1,2)))*ones(1,length(t_add))];
         p = [p p_corner*ones(1,length(t_add))];
         gear = [gear zeros(1,length(t_add))];
     end
@@ -216,6 +221,7 @@ K.t = t;
 K.x = x;
 K.v = v;
 K.a = a;
+K.ay = ay;
 K.p = p;
 K.gear = gear;
 

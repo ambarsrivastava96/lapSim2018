@@ -26,6 +26,7 @@ Fz = car.mass.Iterate*g;
 arraySize = 10000000;
 v_x = zeros(1,arraySize);
 a_x = zeros(1,arraySize);
+a_y = zeros(1,arraySize);
 x = zeros(1,arraySize);
 t = zeros(1,arraySize);
 p = zeros(1,arraySize);
@@ -190,6 +191,7 @@ for s = 2:arraySize
         x = x(1,1:s-1);
         v_x = v_x(1,1:s-1);
         a_x = a_x(1,1:s-1);
+        a_y = a_y(1,1:s-1);
         p = p(1,1:s-1);
         gear = gear(1,1:s-1);
 
@@ -202,6 +204,7 @@ for s = 2:arraySize
         x = [x zeros(1,arraySize)];
         v_x = [v_x zeros(1,arraySize)];
         a_x = [a_x zeros(1,arraySize)];
+        a_y = [a_y zeros(1,arraySize)];
         p = [p zeros(1,arraySize)];
         gear = [gear zeros(1,arraySize)];
     end
@@ -215,6 +218,7 @@ K.t = t;
 K.x = x;
 K.v = v_x;
 K.a = a_x;
+K.ay = a_y;
 K.p = p;
 K.gear = gear;
 

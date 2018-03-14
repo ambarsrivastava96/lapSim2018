@@ -96,6 +96,8 @@ for s = 2:arraySize
         Fx_r_locked = Fx_r_o; % Acceleration all through outer wheel, i.e. lifting inner (Locked diff)
 
         Fx_traction = (Fx_r_open+Fx_r_locked)/2;% Assume average of Open and Locked (LSD)
+        
+%         Fx_traction = Fx_r_open; 
 
         %http://www.engineeringtoolbox.com/rolling-friction-resistance-d_1303.html
         Fx_resist = car.tyre.rollingResistance*(Fz_f_i + Fz_f_o + Fz_r_i + Fz_r_o);

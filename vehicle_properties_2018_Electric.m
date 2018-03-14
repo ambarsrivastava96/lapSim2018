@@ -80,7 +80,7 @@ car.mass.Iterate = car.mass.total;
 car.shiftTime = 0.1; % Irrelevant
 car.gear.R = [1];
 
-car.gear.final = 4.3;
+car.gear.final = 4.27;
 car.gear.primary = 1;
 
 [torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
@@ -89,7 +89,7 @@ car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 70*10^3; %W
+car.powerLimit = 80*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
 car.drivetrain_efficiency = 0.9;

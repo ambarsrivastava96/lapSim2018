@@ -41,7 +41,7 @@ Tyour = Enduro_time;
 
 if car.electric == 1
     while AutoX_time*competition.laps<Tyour
-        car.powerLimit = car.powerLimit - 5000;
+        car.powerLimit = car.powerLimit - 10000;
         [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition);
         Energy_used = AutoX_energy_used*competition.laps;
     end
