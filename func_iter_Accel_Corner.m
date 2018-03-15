@@ -94,8 +94,21 @@ for s = 2:arraySize
      
         Fx_r_open = 2*min([Fx_r_i Fx_r_o]); % Acceleration limited by least loaded tyre (Open diff)
         Fx_r_locked = Fx_r_o; % Acceleration all through outer wheel, i.e. lifting inner (Locked diff)
+        Fx_r_LSD = car.torqueSplit*Fx_r_o+(1-car.torqueSplit)*Fx_r_i; % Fixed percent going to loaded tyre (LSD)
+        Fx_r_TV = Fx_r_o + Fx_r_i;
 
-        Fx_traction = (Fx_r_open+Fx_r_locked)/2;% Assume average of Open and Locked (LSD)
+        switch car.diff
+            case 1
+                Fx_traction = Fx_r_open;
+            case 2
+                Fx_traction = Fx_r_locked; 
+            case 3
+                Fx_traction = Fx_r_LSD; 
+            case 4
+                Fx_traction = Fx_r_TV; 
+        end
+        
+%         Fx_traction = (Fx_r_open+Fx_r_locked)/2;% Assume average of Open and Locked (LSD)
         
 %         Fx_traction = Fx_r_open; 
 

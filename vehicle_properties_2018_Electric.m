@@ -28,12 +28,12 @@ car.tyre.longMuBraking = @ (Fz) (-0.0229.*(Fz./1000).^3 + 0.8056.*(Fz./1000).^2 
 car.tyre.rollingResistance = 0.03;
 
 %% Vehicle Dimensions
-car.wheelbase = 1.575; % m
+car.wheelbase = 1.545; % m
 
-car.track.front = 1.17; % m
-car.track.rear = 1.08; % m
+car.track.front = 1.18; % m
+car.track.rear = 1.18; % m
 
-car.COG_height = 0.3; % metres
+car.COG_height = 0.295; % metres
 
 car.track.average = (car.track.rear+car.track.front)/2;
 car.width = max([car.track.front, car.track.rear])+car.tyre.width;
@@ -77,7 +77,7 @@ car.mass.Iterate = car.mass.total;
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
 % http://www.ktmshop.se/documents/01863885eca922f3562b8fd432706a0b.pdf
 % http://www.motorcyclespecs.co.za/model/ktm/ktm_525_mxc%2000.htm
-car.shiftTime = 0.1; % Irrelevant
+car.shiftTime = 0.1; % Doesn't get used, but will error if not included
 car.gear.R = [1];
 
 car.gear.final = 4.27;
@@ -91,6 +91,9 @@ car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 car.powerLimit = 80*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
+
+car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
+car.torqueSplit = 0.8; % If LSD, how much proportion of torque getting sent to outer wheel
 
 car.drivetrain_efficiency = 0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);

@@ -84,9 +84,12 @@ car.mass.Iterate = car.mass.total;
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
 % http://www.ktmshop.se/documents/01863885eca922f3562b8fd432706a0b.pdf
 % http://www.motorcyclespecs.co.za/model/ktm/ktm_525_mxc%2000.htm
-car.shiftTime = 0.1; % Time it takes to shift gears
-car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
+car.shiftTime = 0.2; % Time it takes to shift gears
 
+car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
+car.torqueSplit = 0.8; % If LSD, how much percent torque getting sent to outer wheel
+
+car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
 car.gear.final = 37/13; %Checked, and correct 
 car.gear.primary = 76/33;
 
