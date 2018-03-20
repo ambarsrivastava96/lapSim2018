@@ -21,7 +21,7 @@ end
 Gear_no = Gear_no_upper;
 
 % Shift up if really close to top of gear
-if abs(vel-car.shiftV(Gear_no))<5 && Gear_no ~= 6
+if car.electric ~= 1 && abs(vel-car.shiftV(Gear_no))<5 && Gear_no ~= 6 
     Gear_no = Gear_no+1;
 end
 

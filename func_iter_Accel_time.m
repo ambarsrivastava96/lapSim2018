@@ -58,9 +58,9 @@ E = 0;
 
 [~,  gear_no] = func_iter_RPM_locater(car, v_initial);
 
-R_gear = R(gear_no);
+% R_gear = R(gear_no);
 gearShift = 0;
-D(1) = 0;
+% D(1) = 0;
 
 
 if v_initial == 0.001 && car.electric == 0
@@ -132,7 +132,7 @@ for s = 2:arraySize
             else
             F_drive = 0; % If mid shift, no drive force
             end
-        else 
+        elseif car.electric ~= 1 
             % Check if shift needed
             if v_x(s-1)>car.shiftV(gear_no) && gear_no < length(car.gear.R) %If speed has passed shifting speed, and not top gear
                 gear_no = gear_no + 1; % Increment to next gear

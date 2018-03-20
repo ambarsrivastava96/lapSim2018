@@ -40,7 +40,7 @@ for i = 1:2:n-1
 
 
     % Corner
-    v_corner_max = func_iter_Max_Cornering_Vel_New(car, abs(trackData(i+1,2)));
+    v_corner_max = func_iter_Max_Cornering_Vel_New(car, abs(trackData(i+1,2)),0);
 
     if v_final > v_corner_max % Need to Brake
         Brake = 1;

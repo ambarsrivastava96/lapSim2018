@@ -3,7 +3,7 @@
 competition_properties_2017_E_FSAE_AUS;
 
 nTests = 6; 
-FDR = 3:0.2:5;
+FDR = 3:0.5:4.5;
 n = length(FDR);
 total = zeros(6,n);
 
@@ -18,6 +18,7 @@ for i = 1:length(FDR)
 end
 
 % Dual 208 Single Drive
+car.diff = 3;
 car.mass.Iterate = car.mass.Iterate+9.4;
 car.torque = car.torque*2; 
 car.power = car.power*2;
@@ -32,6 +33,7 @@ end
 
 
 % Dual 208 Separate Drive
+car.diff = 4;
 car.mass.Iterate = car.mass.Iterate+20.6-9.4;
 for i = 1:length(FDR)
     car.gear.final = FDR(i);
@@ -45,6 +47,7 @@ end
 % Single 228
 clear car
 vehicle_properties_2018_Electric_228;
+car.diff = 3;
 for i = 1:length(FDR)
     car.gear.final = FDR(i);
     [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
@@ -55,6 +58,7 @@ end
 
 
 % Dual 228 Single Drive
+car.diff = 3;
 car.mass.Iterate = car.mass.Iterate+12.3;
 car.torque = car.torque*2; 
 car.power = car.power*2;
@@ -68,6 +72,7 @@ for i = 1:length(FDR)
 end
 
 % Dual 228 Separate Drive
+car.diff = 4;
 car.mass.Iterate = car.mass.Iterate+26.4;
 
 for i = 1:length(FDR)

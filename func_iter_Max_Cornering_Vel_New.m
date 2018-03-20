@@ -39,12 +39,22 @@ while (abs(Fy - Fy_old) > 0.001)
         Load_transfer_y_f = (Fz/2+DF/2)*(car.track.front/(car.track.front+car.track.rear));
         Load_transfer_y_r = (Fz/2+DF/2)*(car.track.rear/(car.track.front+car.track.rear));
     end
-    % Calculate Wheel Loads
+    % Calculate Wheel Loads and max Fx, Fy for each wheel
     Fz_f_i= 0.25*(Fz)*cosd(grade) - Load_transfer_y_f/2+ DF/4 - (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+    Fx_max_f_i = Fz_f_i*car.tyre.longMuRolling(Fz_f_i)*car.tyre.longMuScale;
+    Fy_max_f_i = Fz_f_i*car.tyre.latMu(Fz_f_i)*car.tyre.latMuScale;
+    
     Fz_r_i = 0.25*(Fz)*cosd(grade) - Load_transfer_y_r/2+ DF/4 + (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+    Fx_max_r_i = Fz_r_i*car.tyre.longMuRolling(Fz_r_i)*car.tyre.longMuScale;
+    Fy_max_r_i = Fz_r_i*car.tyre.latMu(Fz_r_i)*car.tyre.latMuScale;
     
     Fz_f_o = 0.25*(Fz)*cosd(grade) + Load_transfer_y_f/2 + DF/4 - (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+    Fx_max_f_o = Fz_f_o*car.tyre.longMuRolling(Fz_f_o)*car.tyre.longMuScale;
+    Fy_max_f_o = Fz_f_o*car.tyre.latMu(Fz_f_o)*car.tyre.latMuScale;
+    
     Fz_r_o = 0.25*(Fz)*cosd(grade) + Load_transfer_y_r/2+ DF/4 + (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+    Fx_max_r_o = Fz_r_o*car.tyre.longMuRolling(Fz_r_o)*car.tyre.longMuScale;
+    Fy_max_r_o = Fz_r_o*car.tyre.latMu(Fz_r_o)*car.tyre.latMuScale;
     
     % Lift Inner rear wheel if locked diff
     if car.diff == 2 || car.torqueSplit == 1
@@ -74,41 +84,15 @@ while (abs(Fy - Fy_old) > 0.001)
             Fx_r_o = outterLoadDistribution*Fx_req; 
     end
     
-    testFz = 1000;
-    lastTestFz = 0;
-    Fz_r_i_long = Fx_r_i/(car.tyre.longMuRolling(testFz)*car.tyre.longMuScale);
-    while abs(testFz-Fz_r_i_long)>0.01
-        delta = abs(testFz-lastTestFz)/2;
-        lastTestFz = testFz; 
-        if testFz > Fz_r_i_long
-            testFz = testFz-delta;
-        else
-            testFz = testFz+delta;
-        end
-        Fz_r_i_long = Fx_r_i/(car.tyre.longMuRolling(testFz)*car.tyre.longMuScale);
-    end
+    Fx_f_i = 0;
+    Fx_f_o = 0;
     
-    testFz = 1000;
-    lastTestFz = 0;
-    Fz_r_o_long = Fx_r_o/(car.tyre.longMuRolling(testFz)*car.tyre.longMuScale);
-    while abs(testFz-Fz_r_o_long)>0.01
-        delta = abs(testFz-lastTestFz)/2;
-        lastTestFz = testFz; 
-        if testFz > Fz_r_o_long
-            testFz = testFz-delta;
-        else
-            testFz = testFz+delta;
-        end
-        Fz_r_o_long = Fx_r_o/(car.tyre.longMuRolling(testFz)*car.tyre.longMuScale);
-    end
+    Fy_f_i = Fy_max_f_i;
+    Fy_f_o = Fy_max_f_o;
     
-    Fz_r_i_lat = Fz_r_i - Fz_r_i_long;
-    Fz_r_o_lat = Fz_r_o - Fz_r_o_long;
+    Fy_r_i = sqrt((Fy_max_r_i^2)*(1-Fx_r_i^2/Fx_max_r_i^2));
+    Fy_r_o = sqrt((Fy_max_r_o^2)*(1-Fx_r_o^2/Fx_max_r_o^2));
     
-    Fy_r_i = Fz_r_i_lat*car.tyre.latMu(Fz_r_i_lat)*car.tyre.latMuScale;
-    Fy_r_o = Fz_r_o_lat*car.tyre.latMu(Fz_r_o_lat)*car.tyre.latMuScale;
-    Fy_f_i = Fz_f_i*car.tyre.latMu(Fz_r_o_lat)*car.tyre.latMuScale;
-    Fy_f_o = Fz_f_o*car.tyre.latMu(Fz_r_o_lat)*car.tyre.latMuScale;
     
     Fy_old = Fy;
     Fy = Fy_r_i + Fy_r_o + Fy_f_i + Fy_f_o;

@@ -64,7 +64,7 @@ car.CD_DRS = 0.75;
 %% Mass Properties
 
 car.mass.driver = 80; % kg
-car.mass.no_driver_no_aero = 235; % kg
+car.mass.no_driver_no_aero = 235+9.4; % kg
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -84,7 +84,7 @@ car.gear.final = 4.27;
 car.gear.primary = 1;
 
 [torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
-numberOfMotors = 1;
+numberOfMotors = 2;
 car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
@@ -92,8 +92,8 @@ car.peak_power = max(car.power);
 car.powerLimit = 80*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
-car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
-car.torqueSplit = 0.8; % If LSD, how much proportion of torque getting sent to outer wheel
+car.diff = 4; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
+car.torqueSplit = 0.96; % If LSD, how much proportion of torque getting sent to outer wheel
 
 car.drivetrain_efficiency = 0.9;
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);

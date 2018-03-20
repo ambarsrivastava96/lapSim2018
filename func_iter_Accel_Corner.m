@@ -58,12 +58,22 @@ for s = 2:arraySize
             Load_transfer_y_f = (Fz/2+DF/2)*(car.track.front/(car.track.front+car.track.rear));
             Load_transfer_y_r = (Fz/2+DF/2)*(car.track.rear/(car.track.front+car.track.rear));
         end
-        % Calculate Wheel Loads
+        % Calculate Wheel Loads and max Fx, Fy for each wheel
         Fz_f_i= 0.25*(Fz)*cosd(grade) - Load_transfer_x/2 - Load_transfer_y_f/2+ DF/4 - (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+        Fx_max_f_i = Fz_f_i*car.tyre.longMuRolling(Fz_f_i)*car.tyre.longMuScale;
+        Fy_max_f_i = Fz_f_i*car.tyre.latMu(Fz_f_i)*car.tyre.latMuScale;
+        
         Fz_r_i = 0.25*(Fz)*cosd(grade) + Load_transfer_x/2 - Load_transfer_y_r/2+ DF/4 + (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+        Fx_max_r_i = Fz_r_i*car.tyre.longMuRolling(Fz_r_i)*car.tyre.longMuScale;
+        Fy_max_r_i = Fz_r_i*car.tyre.latMu(Fz_r_i)*car.tyre.latMuScale;
         
         Fz_f_o = 0.25*(Fz)*cosd(grade) - Load_transfer_x/2 + Load_transfer_y_f/2 + DF/4 - (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+        Fx_max_f_o = Fz_f_o*car.tyre.longMuRolling(Fz_f_o)*car.tyre.longMuScale;
+        Fy_max_f_o = Fz_f_o*car.tyre.latMu(Fz_f_o)*car.tyre.latMuScale;
+        
         Fz_r_o = 0.25*(Fz)*cosd(grade) + Load_transfer_x/2 + Load_transfer_y_r/2+ DF/4 + (car.mass.Iterate)*(car.COG_height/car.wheelbase)*g*sind(grade);
+        Fx_max_r_o = Fz_r_o*car.tyre.longMuRolling(Fz_r_o)*car.tyre.longMuScale;
+        Fy_max_r_o = Fz_r_o*car.tyre.latMu(Fz_r_o)*car.tyre.latMuScale;
         
 %         mu = func_Coeff_Friction_long_rolling(Fz_r/2);
 %         mu = car.tyre.longMuRolling(Fz_r/2)*car.tyre.longMuScale;
@@ -79,18 +89,29 @@ for s = 2:arraySize
         
         % Calculate Amount of Vertical Load Used for cornering on rear
         Fy_total = car.mass.Iterate*a_y(s-1);
+        Fy_r_i = P_Fz_r_i*Fy_total;
+        Fy_r_o = P_Fz_r_o*Fy_total;
         
-        Fz_f_i_corner = (Fy_total*P_Fz_f_i)/(car.tyre.latMu(Fz_f_i)*car.tyre.latMuScale);
-        Fz_r_i_corner = (Fy_total*P_Fz_r_i)/(car.tyre.latMu(Fz_r_i)*car.tyre.latMuScale);
-        Fz_f_o_corner = (Fy_total*P_Fz_f_o)/(car.tyre.latMu(Fz_f_o)*car.tyre.latMuScale);
-        Fz_r_o_corner = (Fy_total*P_Fz_r_o)/(car.tyre.latMu(Fz_r_o)*car.tyre.latMuScale);
-        
+%         Fz_f_i_corner = (Fy_total*P_Fz_f_i)/(car.tyre.latMu(Fz_f_i)*car.tyre.latMuScale);
+%         Fz_r_i_corner = (Fy_total*P_Fz_r_i)/(car.tyre.latMu(Fz_r_i)*car.tyre.latMuScale);
+%         Fz_f_o_corner = (Fy_total*P_Fz_f_o)/(car.tyre.latMu(Fz_f_o)*car.tyre.latMuScale);
+%         Fz_r_o_corner = (Fy_total*P_Fz_r_o)/(car.tyre.latMu(Fz_r_o)*car.tyre.latMuScale);
+
         % Calculate Remaining Available Tractive Force (Long)
-        Fz_r_i_long = Fz_r_i - Fz_r_i_corner;
-        Fz_r_o_long = Fz_r_o - Fz_r_o_corner;
+        if Fy_r_i<Fy_max_r_i
+            Fx_r_i = sqrt((Fx_max_r_i^2)*(1-Fy_r_i^2/Fy_max_r_i^2));
+        else 
+            Fx_r_i = 0;
+        end
         
-        Fx_r_i = Fz_r_i_long*car.tyre.longMuRolling(Fz_r_i_long)*car.tyre.longMuScale;
-        Fx_r_o = Fz_r_o_long*car.tyre.longMuRolling(Fz_r_i_long)*car.tyre.longMuScale;
+        if Fy_r_o<Fy_max_r_i
+            Fx_r_o = sqrt((Fx_max_r_o^2)*(1-Fy_r_o^2/Fy_max_r_o^2));
+        else
+            Fx_r_o = 0;
+        end
+        
+%         Fx_r_i = Fz_r_i_long*car.tyre.longMuRolling(Fz_r_i_long)*car.tyre.longMuScale;
+%         Fx_r_o = Fz_r_o_long*car.tyre.longMuRolling(Fz_r_i_long)*car.tyre.longMuScale;
      
         Fx_r_open = 2*min([Fx_r_i Fx_r_o]); % Acceleration limited by least loaded tyre (Open diff)
         Fx_r_locked = Fx_r_o; % Acceleration all through outer wheel, i.e. lifting inner (Locked diff)
@@ -153,7 +174,7 @@ for s = 2:arraySize
             else
             F_drive = 0; % If mid shift, no drive force
             end
-        else 
+        elseif car.electric ~=1 
             % Check if shift needed
             if v_x(s-1)>car.shiftV(gear_no) && gear_no < length(car.gear.R) %If speed has passed shifting speed, and not top gear
                 gear_no = gear_no + 1; % Increment to next gear
