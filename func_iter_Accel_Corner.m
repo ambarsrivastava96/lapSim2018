@@ -104,7 +104,7 @@ for s = 2:arraySize
             Fx_r_i = 0;
         end
         
-        if Fy_r_o<Fy_max_r_i
+        if Fy_r_o<Fy_max_r_o
             Fx_r_o = sqrt((Fx_max_r_o^2)*(1-Fy_r_o^2/Fy_max_r_o^2));
         else
             Fx_r_o = 0;
@@ -197,8 +197,8 @@ for s = 2:arraySize
             powerMotor = Fx_traction*v_x(s-1)/car.drivetrain_efficiency;
         elseif F_drive < Fx_traction % Power Limited
             a_x(s) = F_eng1/(car.mass.Iterate);
-        else 
-            a_x(s) = 0; 
+        else % Faster than actual cornerning ability (This condition should NOT be needed)
+            a_x(s-1) = 0; 
             v_x(s-1) = v_max;
         end
 

@@ -10,7 +10,6 @@ v_launch = 0.001;
 trackData = competition.trackData;
 n = length(trackData(:,2));
 
-
 %% Set Up Data Arrays
 t = [0]; % Time
 x = [0]; % Position/Distance
@@ -18,7 +17,7 @@ v = [v_launch]; % Velocity
 a = [0]; % Acceleration (Long)
 ay = [0]; % Acceleration (Lat)
 p = [0]; % Power
-gear = [1];
+gear = [1]; % Gear
 
 %% Process Track Data
 for i = 1:n
@@ -31,7 +30,7 @@ end
 %% Begin Simulation
 for i = 1:2:n-1
     Accel = 1;
-%     disp(i);
+    disp(i);
     Brake = 0;
     Corner = 1;
     % Straight
@@ -50,10 +49,20 @@ for i = 1:2:n-1
             if braking_dist > trackData(i,1)+trackData(i+1,1)% Not enough braking distance on corner + straight
                 % B Brake for straight + corner distance
                 Corner = 0;
-                v_brakes = v_corner_max+0.001;
-                while braking_dist > trackData(i,1)+trackData(i+1,1)
+                v_brakes_old = v_final;
+                v_brakes = v_corner_max;
+                [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_corner_max, dt);
+                dist_diff = braking_dist - (trackData(i,1)+trackData(i+1,1));
+                while abs(dist_diff)>0.005
+                    v_brakes_delta = abs(v_brakes-v_brakes_old)/2;
+                    v_brakes_old = v_brakes;
+                    if dist_diff>0
+                        v_brakes = v_brakes + v_brakes_delta;
+                    else
+                        v_brakes = v_brakes - v_brakes_delta;
+                    end
                     [braking_dist, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final, v_brakes, dt);
-                    v_brakes = v_brakes+0.01;
+                    dist_diff = braking_dist - (trackData(i,1)+trackData(i+1,1));
                 end              
             else % B - C Brake through straight and part of corner
                 trackData(i+1,1) = trackData(i,1)+trackData(i+1,1)-braking_dist;
@@ -63,12 +72,14 @@ for i = 1:2:n-1
 
             trackData(i,1) = trackData(i,1) - braking_dist; % Reduce Straight Length
             [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt); % New Straight Sim
-            while abs(v_final-v_final_adjusted>0.001) % Iterate until velocities match
+            v_diff = v_final-v_final_adjusted;
+            while abs(v_diff)>0.05 % Iterate until velocities match
                 [braking_dist_new, ~, ~,K_b] = func_iter_Braking_dist(car, trackData(i,3), v_final_adjusted, v_corner_max, dt);
                 v_final = v_final_adjusted;
                 trackData(i,1) = trackData(i,1) + braking_dist - braking_dist_new;
                 braking_dist = braking_dist_new;
                 [~, v_final_adjusted, ~, K_a] = func_iter_Accel_time(car, trackData(i,3), v(end),trackData(i,1), dt); % New Straight Sim
+                v_diff = v_final-v_final_adjusted;
             end
         end
     else
