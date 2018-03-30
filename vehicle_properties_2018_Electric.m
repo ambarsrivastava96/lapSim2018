@@ -4,7 +4,6 @@ global g rho
 g = 9.81;
 rho = 1.225; %kg/m^3
 
-
 %% General vehicle properties
 car.name = 'Electric Car 2018';
 car.electric = 1;
@@ -80,11 +79,11 @@ car.mass.Iterate = car.mass.total;
 car.shiftTime = 0.1; % Doesn't get used, but will error if not included
 car.gear.R = [1];
 
-car.gear.final = 4.27;
+car.gear.final = 3.45;
 car.gear.primary = 1;
 
 [torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
-numberOfMotors = 1;
+numberOfMotors = 2;
 car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
@@ -92,7 +91,7 @@ car.peak_power = max(car.power);
 car.powerLimit = 80*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
-car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
+car.diff = 4; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
 car.torqueSplit = 0.96; % If LSD, how much proportion of torque getting sent to outer wheel
 
 car.drivetrain_efficiency = 0.9;
