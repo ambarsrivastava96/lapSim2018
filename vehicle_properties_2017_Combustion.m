@@ -94,6 +94,7 @@ car.gear.final = 37/13; %Checked, and correct
 car.gear.primary = 76/33;
 
 [car.torque,car.RPM] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno'); 
+% [car.torque,car.RPM] = EngineExcel2Vector('Stock (2)'); 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 % car.top_speed = 42.1;

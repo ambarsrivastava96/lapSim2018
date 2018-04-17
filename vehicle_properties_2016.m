@@ -48,6 +48,8 @@ car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.CD_DRS = 0.85; %used for accel run 
 car.CD_IterateValue = 1.1;
 
+car.DRS = 0; % Change to 1 if car has DRS
+
 
 %% Engine Porperties
 car.shift_RPM = 7500; 
@@ -76,3 +78,10 @@ car.peak_power = max(car.power);
 % car.top_speed = func_iter_Top_Speed(car)
 
 car.drivetrain_efficiency = 0.9;
+car.powerLimit = inf;
+[car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
+car.top_speed = findCarTopSpeed(car);
+car.energyCapacity = inf;
+car.thermalEfficiency = 0.18;
+car.CO2conversionFactor = 1.65*(1/7.125)*(1/car.thermalEfficiency); % 1.65 From Rules, convert to L, inefficency losses
+

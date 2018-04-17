@@ -31,6 +31,22 @@ car.mass.sprung = car.mass.total - car.mass.unsprung;
 
 car.rim_RM = 0.231267;
 
+%% Wheel and Tyre Properties
+car.rim_RM = 0.231267; %m
+car.tyre.width = 0.240; %m
+
+car.tyre.latMuScale = 1;
+car.tyre.longMuScale = 1;
+
+car.tyre.latMu = @ (Fz) car.tyre.latMuScale*(-0.12117e-07.*Fz.^2 - 0.00025071.*Fz + 2.5038-0.3);
+car.tyre.latMuSkid = @ (Fz) car.tyre.latMuScale*(-0.12117e-07.*Fz.^2 - 0.00025071.*Fz + 2.5038-0.9);
+
+car.tyre.longMuRolling = @ (Fz) (-0.12117e-07.*Fz.^2 - 0.00025071.*Fz + 2.5038 - 0.8);
+car.tyre.longMuLaunch = @ (Fz) abs((0.0199.*(-Fz./1000).^3 - 0.4821.*(-Fz./1000)^2 - 2.698.*(-Fz./1000) + 0.0058)./(-Fz./1000));
+car.tyre.longMuBraking = @ (Fz) (-0.0229.*(Fz./1000).^3 + 0.8056.*(Fz./1000).^2 + 2.8459.*(Fz./1000) - 0.0065)/(Fz./1000);
+
+car.tyre.rollingResistance = 0.03;
+
 %% Aero Properties
 car.farea_unsprung = 1.3;  % acting frontal area
 car.farea_sprung = 1.06;
@@ -48,6 +64,7 @@ car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
 car.CD_FullAero = 0.8 + (0.4/(2.3^2)).*car.CL_FullAero;
 car.CD_DRS = 0; %used for accel run 
 car.CD_IterateValue = 1.1;
+car.DRS = 0;
 
 
 %% Engine Properties
@@ -56,16 +73,19 @@ car.CD_IterateValue = 1.1;
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
 % http://www.ktmshop.se/documents/01863885eca922f3562b8fd432706a0b.pdf
 % http://www.motorcyclespecs.co.za/model/ktm/ktm_525_mxc%2000.htm
-car.shiftTime = 0.1;
+car.shiftTime = 0.2;
 car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
 
 car.gear.final = 37/12; %Checked, and correct 
 car.gear.primary = 76/33;
 
+car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
+car.torqueSplit = 0.8; % If LSD, how much percent torque getting sent to outer wheel
+
+
 [torque_row,RPM_row] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno');
 car.RPM = RPM_row;
 car.torque = torque_row;
-car.torque = 1.1*car.torque; 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 % car.top_speed = 42.1;
@@ -78,3 +98,12 @@ car.thermalEfficiency = 0.18;
 car.CO2conversionFactor = 1.65*(1/7.125)*(1/car.thermalEfficiency); % 1.65 From Rules, convert to L, inefficency losses
 
 car.corneringVelocity = [];
+
+car.drivetrain_efficiency = 0.9;
+car.powerLimit = inf;
+[car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
+car.top_speed = findCarTopSpeed(car);
+car.energyCapacity = inf;
+car.thermalEfficiency = 0.18;
+car.CO2conversionFactor = 1.65*(1/7.125)*(1/car.thermalEfficiency); % 1.65 From Rules, convert to L, inefficency losses
+

@@ -17,8 +17,14 @@ topSpeed = max(v(:,length(car.gear.R)));
 
 for i = 1:length(car.gear.R)-1
     S = InterX([v(:,i)';f(:,i)'],[v(:,i+1)';f(:,i+1)']);
-    shiftV(i) = S(1,end);
-    shiftF(i) = S(2,end);
+    if isempty(S)
+        shiftV(i) = v(end,i);
+        shiftF(i) = f(end,i);
+    else
+        shiftV(i) = S(1,end);
+        shiftF(i) = S(2,end);
+    end
+
 end
 
 if length(car.gear.R)==1
