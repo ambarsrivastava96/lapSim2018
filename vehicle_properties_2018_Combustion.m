@@ -47,7 +47,7 @@ car.farea_Iterate = 1;
 % car.CL_NoAero = 0.000001;
 % car.CL_Tray = 2.365/2;
 % car.CL_FullAero = 2.365;
-car.CL_IterateValue = 3.9; %3.62
+car.CL_IterateValue = 4; %3.62
 
 % car.CD_NoAero = 0.8 + (0.4/(2.3^2)).*car.CL_NoAero;
 % car.CD_Tray = 0.8 + (0.4/(2.3^2)).*car.CL_Tray;
@@ -69,8 +69,8 @@ car.CD_DRS = car.CD_IterateValue*0.6;
 
 
 %% Mass Properties
-car.mass.driver = 86; % kg
-car.mass.no_driver_no_aero = 190-25; % kg
+car.mass.driver = 80; % kg
+car.mass.no_driver_no_aero = 215-25; % kg
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -84,17 +84,17 @@ car.mass.Iterate = car.mass.total;
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
 % http://www.ktmshop.se/documents/01863885eca922f3562b8fd432706a0b.pdf
 % http://www.motorcyclespecs.co.za/model/ktm/ktm_525_mxc%2000.htm
-car.shiftTime = 0.085; % Time it takes to shift gears
+car.shiftTime = 0.12; % Time it takes to shift gears
 
 car.diff = 3; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
-car.torqueSplit = 0.8; % If LSD, how much percent torque getting sent to outer wheel
+car.torqueSplit = 0.96; % If LSD, how much percent torque getting sent to outer wheel
 
 car.gear.R = [34/14 31/17 28/19 26/22 23/24 21/26];
-car.gear.final = 38/11; %Checked, and correct 
+car.gear.final = 38/11;  
 car.gear.primary = 76/33;
 
-% [car.torque,car.RPM] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno'); 
-[car.torque,car.RPM] = EngineExcel2Vector('Stock (2)'); 
+[car.torque,car.RPM] = EngineExcel2Vector('TorqueCurve_KTM_525_Stock_Dyno'); 
+% [car.torque,car.RPM] = EngineExcel2Vector('240mm-option-B'); 
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 % car.top_speed = 42.1;

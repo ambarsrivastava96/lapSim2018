@@ -43,10 +43,10 @@ car.farea_Iterate = 1;
 
 car.CL_NoAero = 0.000001;
 car.CL_Undertray = 1.7*0.7; % 30% Performance loss from no FW and RW
-car.CL_IterateValue = 5; %3.62
+car.CL_IterateValue = 4; %3.62
 
 car.DRS = 0; % Change to 1 if car has DRS
-car.CD_IterateValue = 1.34; % 1.34
+car.CD_IterateValue = 1.45; % 1.34
 car.CD_DRS = 0.75;
 % % Aero Testing Change Parameters
 % car.DRS = 0;
@@ -63,7 +63,7 @@ car.CD_DRS = 0.75;
 %% Mass Properties
 
 car.mass.driver = 80; % kg
-car.mass.no_driver_no_aero = 235+20.6; % kg
+car.mass.no_driver_no_aero = 250; % kg
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -79,7 +79,7 @@ car.mass.Iterate = car.mass.total;
 car.shiftTime = 0.1; % Doesn't get used, but will error if not included
 car.gear.R = [1];
 
-car.gear.final = 3.45;
+car.gear.final = 38/11;
 car.gear.primary = 1;
 
 [torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
