@@ -12,32 +12,33 @@ T_amb = 30;
 powerLimit = 50E3; %40E3:5E3:80E3;
 deltaT = zeros(1,length(powerLimit));
 lapTime = zeros(1,length(powerLimit));
-packVoltage = 470;
 nTubes = 7;
-nBlocks = 110;
+nBlocks = 96;
+maxV = 4.2;
+packVoltage = nBlocks*maxV;
 mTube = 0.0466; % kg
-nLaps = competition.laps; % Half Enduro
+nLaps = competition.laps;
 
 % Air Properties
-V_housing = 0.450*0.235*0.147;
-r_cell = 0.009;
-l_cell = 0.0652;
+V_housing = 0.450*0.235*0.147; % Volume of housing
+r_cell = 0.009; % Radius
+l_cell = 0.0652; % Length
 V_cell = pi*r_cell^2*l_cell; % Volume of one cell
 V_cells = nBlocks*nTubes*V_cell/2; % Volume of cells in one container
 V_Relay = 1.433E5/1E9; % Volume of one relay
 
 V_air = V_housing - V_cells - 3*V_Relay;
-m_air = V_air*1.225;
+m_air = V_air*1.225; 
 airSpecificHeat = 1000; % J/kg/K Constant Pressure
 
 % Housing Properties
 A_internalHousing = 2*2.777E4+4.259E4*4+9.866E4*2+3.482E4*2+6.47E4*2;
 A_internalHousing = A_internalHousing/(1000^2); % Convert to m^2
 % h_housing_freeConvection = 100; %W/m/K
-h_housing_freeConvection = 10:20:110
+h_housing_freeConvection = 10:20:110;
 
 
-% Suingle Cell Discharge Curve 
+% Single Cell Discharge Curve @ 10A
 VTC6voltage = [4.2 3.85 3.8 3.2 2.8 2.5]; %V
 VTC6capacity = [0 0.075 0.15 2.3 2.876 3]; %Ah
 
