@@ -63,7 +63,7 @@ car.CD_DRS = 0.75;
 %% Mass Properties
 
 car.mass.driver = 80; % kg
-car.mass.no_driver_no_aero = 250; % kg
+car.mass.no_driver_no_aero = 215; % kg
 car.mass.total = car.mass.no_driver_no_aero+car.mass.driver+car.mass.aero; % inc. driver
 car.mass.Iterate = car.mass.total;
 
@@ -88,13 +88,13 @@ car.RPM = RPM_row;
 car.torque = numberOfMotors*torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 80*10^3; %W
+car.powerLimit = 38*10^3; %W
 car.CO2conversionFactor = 0.65; % From Rules
 
 car.diff = 4; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
 car.torqueSplit = 0.96; % If LSD, how much proportion of torque getting sent to outer wheel
 
-car.drivetrain_efficiency = 0.9;
+car.drivetrain_efficiency = 0.9*0.92; %Drivetrain * Motor Efficiency
 [car.shiftingRpm, car.top_speed, car.FVG_Matrix, car.F_matrix, car.V_matrix, car.shiftV] = calcShiftRPM(car);
 car.top_speed = findCarTopSpeed(car);
 
