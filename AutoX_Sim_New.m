@@ -10,7 +10,7 @@ v_launch = 0.001;
 trackData = competition.trackData;
 n = length(trackData(:,2));
 
-%% Set Up Data Arrays
+%% Set Up Data Arrays for logging
 t = [0]; % Time
 x = [0]; % Position/Distance
 v = [v_launch]; % Velocity
@@ -18,6 +18,22 @@ a = [0]; % Acceleration (Long)
 ay = [0]; % Acceleration (Lat)
 p = [0]; % Power
 gear = [1]; % Gear
+
+% Power limit/Voltage logging for EV
+if car.electric
+    V = car.battery.startVoltage*ones(1,n);
+    VDropLimit = car.battery.startVoltage-car.battery.minPackVoltage;
+    currentLimit = VDropLimit/(car.battery.IR*car.battery.nBlocks);
+    powerLimit = currentLimit*car.battery.minPackVoltage;
+    energyLeft = car.battery.maxEnergy; 
+    totalDischarge = 0;
+    if powerLimit > 80E3
+        PL = 80E3*ones(1,n);
+    else
+        PL = powerLimit*ones(1,n);
+    end
+    car.powerLimit = PL(1);
+end
 
 emptyK.t = [];
 emptyK.x = [];
@@ -164,6 +180,36 @@ for i = 1:2:n-1
     ay = [ay,ay_add];
     p = [p,p_add];
     gear = [gear,gear_add];
+    
+    % Battery stuff 
+    if(car.electric)
+       energyUsed = trapz(t_add,p_add);
+       energyLeft = energyLeft - energyUsed;
+       if i == 1
+           capacityUsed = car.battery.nBlocks*energyUsed/(3600*V(i)); %3600 for convert to Ah
+       else
+           capacityUsed = car.battery.nBlocks*energyUsed/(3600*V(i-1)); %3600 for convert to Ah
+       end
+       totalDischarge = totalDischarge+capacityUsed; % Cumulative Ah used
+       singleCellDischarge = totalDischarge/(car.battery.nBlocks*car.battery.pCells);
+       if i <= n-1
+            singleCellV = interp1(car.battery.capacityArray, car.battery.voltageArray, singleCellDischarge);
+            V(i) = singleCellV*car.battery.nBlocks;
+            V(i+1) = singleCellV*car.battery.nBlocks;
+            VDropLimit = V(i)-car.battery.minPackVoltage;
+            currentLimit = VDropLimit/(car.battery.IR*car.battery.nBlocks);
+            powerLimit = currentLimit*car.battery.minPackVoltage;
+            if powerLimit > 80E3
+                PL(i) = 80E3;
+                PL(i+1) = 80E3;
+            else
+                PL(i) = powerLimit;
+                PL(i+1) = powerLimit;
+            end
+            car.powerLimit = PL(i);
+       end
+    end
+    
 end
 
 %% Plotting
@@ -224,3 +270,7 @@ K.gear = gear;
 %     end
 % end
 
+%% More Battery shit
+if car.electric
+    car.battery.startVoltage = min(V);
+end

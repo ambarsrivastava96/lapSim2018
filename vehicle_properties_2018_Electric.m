@@ -70,7 +70,7 @@ car.mass.Iterate = car.mass.total;
 % car.mass.unsprung = 45;
 % car.mass.sprung = car.mass.total - car.mass.unsprung;
 
-%% Powertrain Porperties
+%% Powertrain Properties
 %car.shift_RPM = 7500; 
 
 % http://www.motorcyclistonline.com/2007/ktm/exc/525_racing/specifications/24036/05/transmission.html
@@ -82,10 +82,10 @@ car.gear.R = [1];
 car.gear.final = 38/11;
 car.gear.primary = 1;
 
-[torque_row,RPM_row] = EngineExcel2Vector('Emrax_208');
-numberOfMotors = 2;
-car.RPM = RPM_row;
-car.torque = numberOfMotors*torque_row;
+[car.torque_row,car.RPM_row] = EngineExcel2Vector('Emrax_208');
+car.numberOfMotors = 2;
+car.RPM = car.RPM_row;
+car.torque = car.numberOfMotors*car.torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
 car.powerLimit = 38*10^3; %W
@@ -99,3 +99,20 @@ car.drivetrain_efficiency = 0.9*0.92; %Drivetrain * Motor Efficiency
 car.top_speed = findCarTopSpeed(car);
 
 car.energyCapacity = 7.2*3600000;
+
+%% Battery Properties (EV only)
+
+% Single Cell Discharge Curve @ 10A
+car.battery.IR = 3E-3; % Ohms 
+car.testCurrent = 10; % Amps
+car.battery.voltageArray = [4.17 3.85 3.8 3.2 2.8 2.5] + testCurrent*car.battery.IR; %V
+car.battery.capacityArray = [0 0.075 0.15 2.3 2.876 3]; %Ah
+car.cellNomVoltage = 3.6; 
+
+% Pack Properties
+car.battery.nBlocks = 96; % Total number of blocks in series
+car.battery.pCells = 7; % Cells in parallel
+car.battery.maxDischarge = car.battery.pCells*car.battery.nBlocks*max(car.battery.capacityArray); %Ah
+car.battery.maxEnergy = car.battery.pCells*car.battery.nBlocks*trapz(car.battery.capacityArray, car.battery.voltageArray)*3600; %J
+car.battery.startVoltage = car.battery.nBlocks*max(car.battery.voltageArray); %V
+car.battery.minPackVoltage = car.battery.nBlocks*min(car.battery.voltageArray); %V
