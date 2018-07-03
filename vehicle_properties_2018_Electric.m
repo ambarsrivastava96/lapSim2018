@@ -118,4 +118,4 @@ car.battery.maxEnergy = car.battery.pCells*car.battery.nBlocks*trapz(car.battery
 car.battery.startVoltage = car.battery.nBlocks*max(car.battery.voltageArray); %V
 car.battery.minPackVoltage = car.battery.nBlocks*min(car.battery.voltageArray); %V
 car.battery.totalDischarge = 0; 
-car.battery.powerLimitSafetyFactor = 3;
+car.battery.powerLimitSafetyFactor = 1;
