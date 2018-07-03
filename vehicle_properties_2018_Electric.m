@@ -88,7 +88,8 @@ car.RPM = car.RPM_row;
 car.torque = car.numberOfMotors*car.torque_row;
 car.power = car.torque.*car.RPM.*2.*3.141592./(60*1000);
 car.peak_power = max(car.power);
-car.powerLimit = 38*10^3; %W
+car.powerLimitMax = 80E3; %W
+car.powerLimit = car.powerLimitMax;
 car.CO2conversionFactor = 0.65; % From Rules
 
 car.diff = 4; % 1 = open, 2 = locked, 3 = LSD, 4 = Torque Vectoring
@@ -105,7 +106,7 @@ car.energyCapacity = 7.2*3600000;
 % Single Cell Discharge Curve @ 10A
 car.battery.IR = 3E-3; % Ohms 
 car.testCurrent = 10; % Amps
-car.battery.voltageArray = [4.17 3.85 3.8 3.2 2.8 2.5] + testCurrent*car.battery.IR; %V
+car.battery.voltageArray = [4.17 3.85 3.8 3.2 2.8 2.5] + car.testCurrent*car.battery.IR; %V
 car.battery.capacityArray = [0 0.075 0.15 2.3 2.876 3]; %Ah
 car.cellNomVoltage = 3.6; 
 
@@ -116,3 +117,5 @@ car.battery.maxDischarge = car.battery.pCells*car.battery.nBlocks*max(car.batter
 car.battery.maxEnergy = car.battery.pCells*car.battery.nBlocks*trapz(car.battery.capacityArray, car.battery.voltageArray)*3600; %J
 car.battery.startVoltage = car.battery.nBlocks*max(car.battery.voltageArray); %V
 car.battery.minPackVoltage = car.battery.nBlocks*min(car.battery.voltageArray); %V
+car.battery.totalDischarge = 0; 
+car.battery.powerLimitSafetyFactor = 3;

@@ -1,4 +1,4 @@
-function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition)
+function [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K, B] = AutoX_Sim_New(car, competition)
 
 %% Constants
 g = 9.81;
@@ -24,11 +24,11 @@ if car.electric
     V = car.battery.startVoltage*ones(1,n);
     VDropLimit = car.battery.startVoltage-car.battery.minPackVoltage;
     currentLimit = VDropLimit/(car.battery.IR*car.battery.nBlocks);
-    powerLimit = currentLimit*car.battery.minPackVoltage;
+    powerLimit = currentLimit*car.battery.minPackVoltage/car.battery.powerLimitSafetyFactor;
     energyLeft = car.battery.maxEnergy; 
-    totalDischarge = 0;
-    if powerLimit > 80E3
-        PL = 80E3*ones(1,n);
+    totalDischarge = car.battery.totalDischarge; 
+    if powerLimit > car.powerLimitMax
+        PL = car.powerLimitMax*ones(1,n);
     else
         PL = powerLimit*ones(1,n);
     end
@@ -198,10 +198,10 @@ for i = 1:2:n-1
             V(i+1) = singleCellV*car.battery.nBlocks;
             VDropLimit = V(i)-car.battery.minPackVoltage;
             currentLimit = VDropLimit/(car.battery.IR*car.battery.nBlocks);
-            powerLimit = currentLimit*car.battery.minPackVoltage;
-            if powerLimit > 80E3
-                PL(i) = 80E3;
-                PL(i+1) = 80E3;
+            powerLimit = currentLimit*car.battery.minPackVoltage/car.battery.powerLimitSafetyFactor;
+            if powerLimit > car.powerLimitMax
+                PL(i) = car.powerLimitMax;
+                PL(i+1) = car.powerLimitMax;
             else
                 PL(i) = powerLimit;
                 PL(i+1) = powerLimit;
@@ -272,5 +272,6 @@ K.gear = gear;
 
 %% More Battery shit
 if car.electric
-    car.battery.startVoltage = min(V);
+    B.startVoltage = min(V);
+    B.totalDischarge = totalDischarge; 
 end
