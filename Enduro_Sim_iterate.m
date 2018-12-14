@@ -39,23 +39,23 @@ Tmin = competition.enduranceMin;
 Tmax = Tmin*1.45;
 Tyour = Enduro_time;
 
-if car.electric == 1
-    oldPowerLimit = car.powerLimit;
-    deltaPowerLimit = oldPowerLimit/2;
-    
-    while abs(AutoX_time*competition.laps-Tyour)>0.1
-        if AutoX_time*competition.laps > Tyour
-            car.powerLimit = car.powerLimit + deltaPowerLimit;
-        else 
-            car.powerLimit = car.powerLimit - deltaPowerLimit;
-        end
-        deltaPowerLimit = abs(car.powerLimit - oldPowerLimit)/2;
-        oldPowerLimit = car.powerLimit; 
-        [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition);
-        Energy_used = AutoX_energy_used*competition.laps;
-    end
-        
-end
+% if car.electric == 1
+%     oldPowerLimit = car.powerLimit;
+%     deltaPowerLimit = oldPowerLimit/2;
+%     
+%     while abs(AutoX_time*competition.laps-Tyour)>0.1
+%         if AutoX_time*competition.laps > Tyour
+%             car.powerLimit = car.powerLimit + deltaPowerLimit;
+%         else 
+%             car.powerLimit = car.powerLimit - deltaPowerLimit;
+%         end
+%         deltaPowerLimit = abs(car.powerLimit - oldPowerLimit)/2;
+%         oldPowerLimit = car.powerLimit; 
+%         [AutoX_Score, AutoX_time, AutoX_energy_used, AutoX_energy_recovered, K] = AutoX_Sim_New(car, competition);
+%         Energy_used = AutoX_energy_used*competition.laps;
+%     end
+%         
+% end
 
 Enduro_Score = 250*(((Tmax/Tyour) - 1)/((Tmax/Tmin) - 1)) + 25;
 

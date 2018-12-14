@@ -37,12 +37,8 @@ end
 %     fprintf('Iteration %d/%d\n',length(FDR)+i,2*length(FDR));
 % end
 
-plot(FDR,total,FDR,Accel,FDR,Skidpan,FDR,AutoX,FDR,Enduro,FDR,Efficiency);
-legend('Total', 'Acceleration', 'Skidpan', 'Autocross', 'Endurance', 'Efficiency');
-grid minor
-xlabel('FDR')
-ylabel('Dynamic Points')
-title('FDR VS Competition Points')
+
+
 figure
 plot(FDR,EnduroEnergy)
 xlabel('FDR')
