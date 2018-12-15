@@ -5,6 +5,7 @@ function [Braking_dist, Braking_time, energyRecover, K] = func_iter_Braking_dist
 g = 9.81; %m/s^2
 rho = 1.225; %kg/m^3
 
+energyRecover.rear = 0;
 v = v_initial;
 V = [v];
 x = 0;
@@ -13,6 +14,8 @@ t = 0;
 T = [t];
 a = 0;
 A = [a];
+p = 0;
+P = [p];
 
 while (v > v_final)
     
@@ -52,19 +55,22 @@ while (v > v_final)
     X = [X, x + v*dt + 0.5*a*dt^2];
     V = [V,  v + a*dt];
     A = [A, a];
+    P = [P, Fric_rear*v];
+    
+    energyRecover.rear = energyRecover.rear + Fric_rear*v*dt;
 end
 
 Braking_dist = x;
 Braking_time = t;
 
-energyRecover = 0.5*car.mass.Iterate*(v_final^2-v_initial^2);
+energyRecover.total = 0.5*car.mass.Iterate*(v_final^2-v_initial^2);
 
 K.t = T;
 K.x = X;
 K.v = V;
 K.a = A;
 K.ay = zeros(1,length(T));
-K.p = zeros(1,length(T));
+K.p = P;
 K.gear = zeros(1,length(T));
 
 end
